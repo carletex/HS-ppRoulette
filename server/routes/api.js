@@ -1,9 +1,18 @@
 var express = require('express');
 var router = express.Router();
 
-var sessionController = require('../controllers/session-controller');
-
 /* GET home page. */
-router.get('/', sessionController.list);
+router.get('/', function(req, res){
+  var session = req.db.collection('session');
+
+  session.find().toArray(function(err, result) {
+    if (err) {
+      res.status(500).end();
+      return;
+    }
+    res.json(result);
+  });
+
+});
 
 module.exports = router;
