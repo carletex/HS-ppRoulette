@@ -4,6 +4,10 @@ var bodyParser = require('body-parser');
 var mongo = require('mongoskin');
 var mongoose = require('mongoose');
 var config = require('./config');
+var request = require('request');
+var moment = require('moment');
+var jwt = require('jwt-simple');
+
 
 var db = mongo.db('mongodb://localhost/pproulette', {native_parser:true});
 
@@ -88,6 +92,7 @@ app.use('/api', apiRoutes);
  |--------------------------------------------------------------------------
  */
 app.post('/auth/hackerschool', function(req, res) {
+
   var accessTokenUrl = 'https://www.hackerschool.com/oauth/token';
   var peopleApiUrl = 'https://www.hackerschool.com/api/v1/people/me';
 
@@ -104,28 +109,32 @@ app.post('/auth/hackerschool', function(req, res) {
     var accessToken = token.access_token;
     var headers = { Authorization: 'Bearer ' + accessToken };
 
+
     // Step 2. Retrieve profile information about the current user.
     request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
-      User.findOne({hsId: profile.id}, function(err, existingUser) {
-        // Step 3b. Create a new user account or return an existing one.
-        if (existingUser) {
-          return res.send({
-            token: createToken(req, existingUser)
-          });
-        }
-        var user = new User();
-        user.hsId = profile.id;
-        user.email = profile.email;
-        user.displayName = profile.first_name + ' ' + profile.last_name;
-        user.startDate = profile.batch.start_date;
-        user.endDate = profile.batch.end_date;
 
-        user.save(function(err) {
-          res.send({
-            token: createToken(req, user),
-          });
-        });
-      });
+      console.log(response.body);
+      // User.findOne({hsId: profile.id}, function(err, existingUser) {
+      //   // Step 3b. Create a new user account or return an existing one.
+      //   if (existingUser) {
+      //     return res.send({
+      //       token: createToken(req, existingUser)
+      //     });
+      //   }
+      //   var user = new User();
+      //   user.hsId = profile.id;
+      //   user.email = profile.email;
+      //   user.displayName = profile.first_name + ' ' + profile.last_name;
+      //   user.startDate = profile.batch.start_date;
+      //   user.endDate = profile.batch.end_date;
+
+      //   user.save(function(err) {
+      //     res.send({
+      //       token: createToken(req, user),
+      //     });
+      //   });
+      // });
+
     });
   });
 });

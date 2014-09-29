@@ -6,14 +6,9 @@ app.config(function($authProvider) {
   $authProvider.oauth2({
     url: '/auth/hackerschool',
     name: 'hackerschool',
-    clientId: '0dcf15561cd59ddd398c74118fc24ddfb1670cfeb3fa0816a540d68ae5df7c85',
+    clientId: '09ba9c980f22ca1058d4aef36e1daff22d28581010f95265d6b1ae3e09a0d027',
     authorizationEndpoint: 'https://www.hackerschool.com/oauth/authorize',
-    redirectUri: "http://127.0.0.1:8000/auth/hackerschool",
-    scope: [],
-    scopeDelimiter: ' ',
-    display: 'popup',
-    type: '2.0',
-    popupOptions: { width: 1000, height: 500 }
+    redirectUri: "http://127.0.0.1:8000"
   });
 });
 
