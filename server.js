@@ -14,6 +14,8 @@ db.once('open', function callback () {
 });
 
 app.set('port', process.env.PORT || 8000);
+app.set('views', './server');
+app.set('view engine', 'jade');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
