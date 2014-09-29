@@ -1,14 +1,19 @@
 'use strict';
 
-var app = angular.module('ppRouletteApp', ['ngRoute']);
+var app = angular.module('ppRouletteApp', ['ngRoute', 'satellizer']);
 
-app.controller("SessionList", function($scope, $http) {
-  $scope.sessions = 'data';
-  $http.get('/api')
-    .success(function(data){
-      $scope.sessions = data;
-    })
-    .error(function(data, status){
-      $scope.sessions = data + status;
+app.config(function($authProvider) {
+
+    $authProvider.hackerschool({
+      clientId: '0dcf15561cd59ddd398c74118fc24ddfb1670cfeb3fa0816a540d68ae5df7c85'
     });
+
+  });
+
+app.controller("SessionList", function($scope) {
+
+  $scope.authenticate = function(provider) {
+      $auth.authenticate(provider);
+  };
+
 });
