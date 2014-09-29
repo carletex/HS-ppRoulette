@@ -1,0 +1,14 @@
+{
+  "name": "HS-ppRoulette",
+  "version": "0.0.1",
+  "description": "Pair programming roulette for HS",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "todo"
+  },
+  "dependencies": {
+    "express": "~4.2.0",
+    "body-parser": "~1.0.0",
+  }
+}
