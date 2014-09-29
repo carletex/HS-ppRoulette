@@ -16,13 +16,13 @@ var app = express();
  |--------------------------------------------------------------------------
  */
 var userSchema = new mongoose.Schema({
-    displayName: String,
-    hsId: String,
-    email: String,
-    startDate: Date,
-    endDate: Date,
+  displayName: String,
+  hsId: String,
+  email: String,
+  startDate: Date,
+  endDate: Date,
 }, {
-    minimize: false // we need to set this so empty object can be persisted
+  minimize: false // we need to set this so empty object can be persisted
 });
 
 var User = mongoose.model('User', userSchema);
@@ -88,47 +88,47 @@ app.use('/api', apiRoutes);
  |--------------------------------------------------------------------------
  */
 app.post('/auth/hackerschool', function(req, res) {
-    var accessTokenUrl = 'https://www.hackerschool.com/oauth/token';
-    var peopleApiUrl = 'https://www.hackerschool.com/api/v1/people/me';
+  var accessTokenUrl = 'https://www.hackerschool.com/oauth/token';
+  var peopleApiUrl = 'https://www.hackerschool.com/api/v1/people/me';
 
-    var params = {
-        client_id: req.body.clientId,
-        redirect_uri: req.body.redirectUri,
-        client_secret: config.HS_SECRET,
-        code: req.body.code,
-        grant_type: 'authorization_code'
-    };
+  var params = {
+    client_id: req.body.clientId,
+    redirect_uri: req.body.redirectUri,
+    client_secret: config.HS_SECRET,
+    code: req.body.code,
+    grant_type: 'authorization_code'
+  };
 
-    // Step 1. Exchange authorization code for access token.
-    request.post(accessTokenUrl, {json: true, form: params}, function(err, response, token) {
-        var accessToken = token.access_token;
-        var headers = { Authorization: 'Bearer ' + accessToken };
+  // Step 1. Exchange authorization code for access token.
+  request.post(accessTokenUrl, {json: true, form: params}, function(err, response, token) {
+    var accessToken = token.access_token;
+    var headers = { Authorization: 'Bearer ' + accessToken };
 
-        // Step 2. Retrieve profile information about the current user.
-        request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
-            User.findOne({hsId: profile.id}, function(err, existingUser) {
-                // Step 3b. Create a new user account or return an existing one.
-                if (existingUser) {
-                    return res.send({
-                        token: createToken(req, existingUser)
-                    });
-                }
-                var user = new User();
-                user.hsId = profile.id;
-                user.email = profile.email;
-                user.displayName = profile.first_name + ' ' + profile.last_name;
-                user.startDate = profile.batch.start_date;
-                user.endDate = profile.batch.end_date;
+    // Step 2. Retrieve profile information about the current user.
+    request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
+      User.findOne({hsId: profile.id}, function(err, existingUser) {
+        // Step 3b. Create a new user account or return an existing one.
+        if (existingUser) {
+          return res.send({
+            token: createToken(req, existingUser)
+          });
+        }
+        var user = new User();
+        user.hsId = profile.id;
+        user.email = profile.email;
+        user.displayName = profile.first_name + ' ' + profile.last_name;
+        user.startDate = profile.batch.start_date;
+        user.endDate = profile.batch.end_date;
 
-                user.save(function(err) {
-                    res.send({
-                        token: createToken(req, user),
-                    });
-                });
-            });
+        user.save(function(err) {
+          res.send({
+            token: createToken(req, user),
+          });
         });
+      });
     });
- });
+  });
+});
 
 
 app.get('*', function(req, res) {
@@ -137,9 +137,9 @@ app.get('*', function(req, res) {
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 /// error handlers
@@ -147,24 +147,24 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        console.log(err.message);
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+  app.use(function(err, req, res, next) {
+    console.log(err.message);
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
     });
+  });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
 });
 
 app.listen(app.get('port'), function() {

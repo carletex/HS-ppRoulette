@@ -8,7 +8,7 @@ app.config(function($authProvider) {
     name: 'hackerschool',
     clientId: '0dcf15561cd59ddd398c74118fc24ddfb1670cfeb3fa0816a540d68ae5df7c85',
     authorizationEndpoint: 'https://www.hackerschool.com/oauth/authorize',
-    redirectUri: window.location.origin,
+    redirectUri: "http://127.0.0.1:8000/auth/hackerschool",
     scope: [],
     scopeDelimiter: ' ',
     display: 'popup',
