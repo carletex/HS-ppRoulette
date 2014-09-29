@@ -2,7 +2,7 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 
-var routes = require('./server/routes/index');
+var apiRoutes = require('./server/routes/api');
 var app = express();
 
 app.set('port', process.env.PORT || 8000);
@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname, 'client')));
 
-app.use('/api', routes);
+app.use('/api', apiRoutes);
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);
