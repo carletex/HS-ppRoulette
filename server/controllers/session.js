@@ -12,14 +12,35 @@ module.exports.addSession = function(req, res) {
 
 
 module.exports.assignRandomSession = function(req, res) {
-  Session.find({}).lean().exec(function(err, data) {
-    randomEntry = data[Math.floor(Math.random() * data.length)];
-    User.findOne({hsId: randomEntry.hostId}, function(err, data) {
-      randomEntry.hostName = data.displayName;
-      var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      randomEntry.day = week[randomEntry.date.getDay()];
-      randomEntry.hour = randomEntry.date.getHours() + ':' + randomEntry.date.getMinutes();
-      res.json(randomEntry);
-    });
+
+  var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  Session.find({
+    'hsId' : {$ne: req.hsId},
+    'guestId': -1
+  }, function(err, data) {
+
+    if (data.length) {
+      randomEntry = data[Math.floor(Math.random() * data.length)];
+      randomEntryObject = randomEntry.toObject();
+
+      User.findOne({hsId: randomEntry.hostId}, function(err, data) {
+
+        randomEntryObject.hostName = data.displayName;
+        randomEntryObject.day = week[randomEntryObject.date.getDay()];
+        randomEntryObject.hour = randomEntryObject.date.getHours() + ':' + randomEntryObject.date.getMinutes();
+
+        randomEntry.update({guestId: req.hsId}, function(err, numAffected) {
+          if (numAffected !== 1 || err) {
+            throw 'Something went wrong', err;
+          }
+          res.json(randomEntryObject);
+        });
+
+      });
+    } else {
+      res.json({});
+    }
+
   });
 };
