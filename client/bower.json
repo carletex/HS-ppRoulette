@@ -17,6 +17,8 @@
     "satellizer": "~0.7.0",
     "angular": "~1.2.25",
     "angular-route": "~1.2.25",
-    "jquery": "2.*"
+    "jquery": "2.*",
+    "jquery-ui": "1.*",
+    "jquery-timepicker": "*"
   }
 }

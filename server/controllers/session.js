@@ -16,6 +16,9 @@ module.exports.assignRandomSession = function(req, res) {
     randomEntry = data[Math.floor(Math.random() * data.length)];
     User.findOne({hsId: randomEntry.hostId}, function(err, data) {
       randomEntry.hostName = data.displayName;
+      var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      randomEntry.day = week[randomEntry.date.getDay()];
+      randomEntry.hour = randomEntry.date.getHours() + ':' + randomEntry.date.getMinutes();
       res.json(randomEntry);
     });
   });

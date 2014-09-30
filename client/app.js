@@ -106,3 +106,21 @@ app.controller("RandomController", function($scope, $http) {
       console.log('Error', status);
     })
 });
+
+
+angular.module('ppRouletteApp')
+  .directive('timepicker', function () {
+    return {
+      restrict: 'A',
+      link : function (scope, element, attrs, ngModelCtrl) {
+        $(function() {
+          $(element).timepicker({
+            'scrollDefault': 'now',
+            'minTime': '10:30am',
+            'maxTime': '6:00pm',
+          });
+        });
+      }
+    };
+  });
+
