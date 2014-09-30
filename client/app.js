@@ -12,9 +12,41 @@ app.config(function($authProvider) {
   });
 });
 
+app.config(['$routeProvider', function($routeProvider) {
+  $routeProvider
+    .when('/', {
+      templateUrl: '/partials/login.html',
+      controller: 'LoginController'
+    })
+    .when('/dashboard', {
+      templateUrl: '/partials/dashboard.html',
+      controller: 'DashboardController'
+    })
+    .otherwise({
+      redirectTo: '/'
+    });
+}]);
 
-app.controller("SessionList", function($scope, $auth) {
+
+app.controller("LoginController", function($scope, $auth, $location) {
+
+  $scope.isAuthenticated = $auth.isAuthenticated();
+
+  $scope.$watch('isAuthenticated', function(isAuthenticated) {
+    if (isAuthenticated){
+      $location.path('/dashboard');
+    }
+  });
+
   $scope.authenticate = function(provider) {
-    $auth.authenticate(provider);
+    $auth.authenticate(provider).then(function (argument) {
+      $scope.isAuthenticated = true;
+    });
   };
+
 });
+
+app.controller("DashboardController", function($scope, $auth) {
+  $scope.user = 'Carlos';
+});
+

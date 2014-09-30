@@ -34,12 +34,12 @@ module.exports.postHandler = function(req, res) {
             token: createToken(req, existingUser)
           });
         }
-        var user = new User();
-        user.hsId = profile.id;
-        user.email = profile.email;
-        user.displayName = profile.first_name + ' ' + profile.last_name;
-        user.startDate = profile.batch.start_date;
-        user.endDate = profile.batch.end_date;
+
+        var user = new User({
+          hsId: profile.id,
+          email: profile.email,
+          displayName: profile.first_name + ' ' + profile.last_name
+        });
 
         user.save(function(err) {
           res.send({
