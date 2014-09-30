@@ -1,4 +1,5 @@
 var Session = require('../models/session');
+var User = require('../models/user');
 
 
 module.exports.addSession = function(req, res) {
@@ -11,8 +12,11 @@ module.exports.addSession = function(req, res) {
 
 
 module.exports.assignRandomSession = function(req, res) {
-  Session.find({}, function(err, data) {
+  Session.find({}).lean().exec(function(err, data) {
     randomEntry = data[Math.floor(Math.random() * data.length)];
-    res.json(randomEntry);
+    User.findOne({hsId: randomEntry.hostId}, function(err, data) {
+      randomEntry.hostName = data.displayName;
+      res.json(randomEntry);
+    });
   });
 };
