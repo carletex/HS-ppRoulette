@@ -1,6 +1,10 @@
 var User = require('../models/user');
 
 module.exports.getOrCreate = function(err, response, profile) {
+  if (!profile || profile.message === 'unauthorized') {
+    console.log('unauthorized');
+    return;
+  }
   User.findOne({hsId: profile.id}, function(err, existingUser) {
     if (existingUser) {
       return response.send({
