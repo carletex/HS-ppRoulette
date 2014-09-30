@@ -11,10 +11,10 @@
     "express": "~4.2.0",
     "body-parser": "~1.0.0",
     "jade": "~1.7.0",
-    "mongoskin": "~1.4.4",
     "satellizer": "~0.7.0",
     "request": "~2.44.0",
     "moment": "~2.8.3",
-    "jwt-simple": "~0.2.0"
+    "jwt-simple": "~0.2.0",
+    "express-session": "~1.8.2"
   }
 }

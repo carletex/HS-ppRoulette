@@ -69,14 +69,27 @@ app.controller("DashboardController", function($scope) {
 });
 
 
-app.controller("SessionController", function($scope, $http) {
+app.controller("SessionController", function($scope, $http, $location) {
   $scope.addSession = function() {
-    var session = {
-      "description": $scope.description,
-      "date": $scope.date,
-    };
 
-    $http.post('/api/session', session);
+    $http.get('/api/user/id')
+      .success(function(data, status, headers, config) {
+        var session = {
+          "hostId": data.hsId,
+          "description": $scope.description,
+          "date": $scope.date,
+        };
+
+        $http.post('/api/session', session)
+          .success(function(data, status, headers, config) {
+            $location.path('/dashboard');
+          })
+          .error(function(data, status, headers, config) {
+            console.log('Error', status);
+          });
+      })
+
+
   };
 });
 

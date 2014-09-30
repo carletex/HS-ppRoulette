@@ -3,5 +3,8 @@ var Session = require('../models/session');
 
 
 module.exports.addSession = function(req, res) {
-  console.log(req.body);
+  var session = new Session(req.body);
+  session.save(function(err) {
+    res.status(200).end();
+  });
 };
