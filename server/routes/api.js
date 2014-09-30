@@ -1,18 +1,8 @@
 var express = require('express');
+var sessionController = require('../controllers/session');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res){
-  var session = req.db.collection('session');
 
-  session.find().toArray(function(err, result) {
-    if (err) {
-      res.status(500).end();
-      return;
-    }
-    res.json(result);
-  });
-
-});
+router.post('/session', sessionController.addSession);
 
 module.exports = router;

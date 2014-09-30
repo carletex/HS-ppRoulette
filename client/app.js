@@ -20,7 +20,25 @@ app.config(['$routeProvider', function($routeProvider) {
     })
     .when('/dashboard', {
       templateUrl: '/partials/dashboard.html',
-      controller: 'DashboardController'
+      controller: 'DashboardController',
+      resolve: {
+        authenticated: ['$location', '$auth', function($location, $auth) {
+          if (!$auth.isAuthenticated()) {
+            return $location.path('/');
+          }
+        }]
+      }
+    })
+    .when('/session/add', {
+      templateUrl: '/partials/session_new.html',
+      controller: 'SessionController',
+      resolve: {
+        authenticated: ['$location', '$auth', function($location, $auth) {
+          if (!$auth.isAuthenticated()) {
+            return $location.path('/');
+          }
+        }]
+      }
     })
     .otherwise({
       redirectTo: '/'
@@ -46,7 +64,20 @@ app.controller("LoginController", function($scope, $auth, $location) {
 
 });
 
-app.controller("DashboardController", function($scope, $auth) {
+app.controller("DashboardController", function($scope) {
   $scope.user = 'Carlos';
 });
+
+
+app.controller("SessionController", function($scope, $http) {
+  $scope.addSession = function() {
+    var session = {
+      "description": $scope.description,
+      "date": $scope.date,
+    };
+
+    $http.post('/api/session', session);
+  };
+});
+
 

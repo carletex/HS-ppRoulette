@@ -1,14 +1,11 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var mongo = require('mongoskin');
 var mongoose = require('mongoose');
 var config = require('./config');
 var request = require('request');
 var moment = require('moment');
 var jwt = require('jwt-simple');
-
-var db = mongo.db('mongodb://localhost/pproulette', {native_parser:true});
 
 var apiRoutes = require('./server/routes/api');
 var authRoutes = require('./server/routes/auth');
@@ -27,11 +24,6 @@ app.use(express.static(path.join(__dirname, 'client')));
 // import models
 var User = require('./server/models/user');
 
-// Make our db accessible to our router
-app.use(function(req,res,next) {
-  req.db = db;
-  next();
-});
 
 // import routes
 app.use('/api', apiRoutes);

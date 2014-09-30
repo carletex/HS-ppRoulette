@@ -1,8 +1,6 @@
 var express = require('express');
-var config = require('../../config');
-var request = require('request');
+var authController = require('../controllers/auth');
 var router = express.Router();
-var authController = require('../controllers/auth.js');
 
 
 router.post('/hackerschool', authController.postHandler);
