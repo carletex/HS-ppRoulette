@@ -1,6 +1,8 @@
 var config = require('../../config');
 var request = require('request');
-var userController = require('./user');
+var moment = require('moment');
+var jwt = require('jwt-simple');
+var User = require('../models/user');
 
 module.exports.postHandler = function(req, res) {
   var accessTokenUrl = 'https://www.hackerschool.com/oauth/token';
@@ -20,7 +22,32 @@ module.exports.postHandler = function(req, res) {
     var headers = { Authorization: 'Bearer ' + accessToken };
 
     // Step 2. Retrieve profile information about the current user.
-    request.get({ url: peopleApiUrl, headers: headers, json: true }, userController.getOrCreate);
+    request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
+      if (!profile || profile.message === 'unauthorized') {
+        console.log('unauthorized');
+        return;
+      }
+      User.findOne({hsId: profile.id}, function(err, existingUser) {
+        if (existingUser) {
+          console.log(existingUser);
+          return res.send({
+            token: createToken(req, existingUser)
+          });
+        }
+        var user = new User();
+        user.hsId = profile.id;
+        user.email = profile.email;
+        user.displayName = profile.first_name + ' ' + profile.last_name;
+        user.startDate = profile.batch.start_date;
+        user.endDate = profile.batch.end_date;
+
+        user.save(function(err) {
+          res.send({
+            token: createToken(req, user),
+          });
+        });
+      });
+    });
   });
 };
 
