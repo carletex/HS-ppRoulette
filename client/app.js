@@ -40,6 +40,17 @@ app.config(['$routeProvider', function($routeProvider) {
         }]
       }
     })
+    .when('/session/join', {
+      templateUrl: '/partials/session_join.html',
+      controller: 'RandomController',
+      resolve: {
+        authenticated: ['$location', '$auth', function($location, $auth) {
+          if (!$auth.isAuthenticated()) {
+            return $location.path('/');
+          }
+        }]
+      }
+    })
     .otherwise({
       redirectTo: '/'
     });
@@ -71,7 +82,6 @@ app.controller("DashboardController", function($scope) {
 
 app.controller("SessionController", function($scope, $http, $location) {
   $scope.addSession = function() {
-
     var session = {
       "description": $scope.description,
       "date": $scope.date,
@@ -84,9 +94,15 @@ app.controller("SessionController", function($scope, $http, $location) {
       .error(function(data, status, headers, config) {
         console.log('Error', status);
       });
-
-
   };
 });
 
-
+app.controller("RandomController", function($scope, $http) {
+  $http.get('/api/session/random')
+    .success(function(data, status, headers, config) {
+      $scope.data = data;
+    })
+    .error(function(data, status, headers, config) {
+      console.log('Error', status);
+    })
+});

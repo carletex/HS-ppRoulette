@@ -1,5 +1,6 @@
 <div ng-controller="RandomController">
-  You've been paired with {{ session.hostId }}.
+  You've been paired with <strong>{{ data.hostId }}</strong>.
 
-  <pre>{{ session.description }} at {{ session.date }} </pre>
+  <p>Description: <strong>{{ data.description }}</strong></p>
+  <p>Date : <strong>{{ data.date }}</strong> </p>
 </div>

@@ -11,7 +11,8 @@ module.exports.addSession = function(req, res) {
 
 
 module.exports.assignRandomSession = function(req, res) {
-  Session.find({}, function(err, data){
-    console.log(data);
+  Session.find({}, function(err, data) {
+    randomEntry = data[Math.floor(Math.random() * data.length)];
+    res.json(randomEntry);
   });
 };
