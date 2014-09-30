@@ -32,7 +32,7 @@ module.exports.assignRandomSession = function(req, res) {
 
         randomEntry.update({guestId: req.hsId}, function(err, numAffected) {
           if (numAffected !== 1 || err) {
-            throw 'Something went wrong', err;
+            throw 'Something went wrong' + err;
           }
           res.json(randomEntryObject);
         });
