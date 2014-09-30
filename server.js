@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 var config = require('./config');
 var request = require('request');
 var moment = require('moment');
-var session = require('express-session');
 var jwt = require('jwt-simple');
 
 var apiRoutes = require('./server/routes/api');
@@ -20,7 +19,6 @@ app.set('view engine', 'jade');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(session({secret: '0dsad10d0h0asff', resave: true, saveUninitialized: true}));
 app.use(express.static(path.join(__dirname, 'client')));
 
 // import models

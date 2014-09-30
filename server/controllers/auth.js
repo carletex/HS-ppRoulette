@@ -53,12 +53,8 @@ module.exports.postHandler = function(req, res) {
 };
 
 
-/*
- |--------------------------------------------------------------------------
- | Login Required Middleware
- |--------------------------------------------------------------------------
- */
-function ensureAuthenticated(req, res, next) {
+
+module.exports.ensureAuthenticated = function(req, res, next) {
   if (!req.headers.authorization) {
     return res.status(401).send({ message: 'Please make sure your request has an Authorization header' });
   }
@@ -70,18 +66,14 @@ function ensureAuthenticated(req, res, next) {
     return res.status(401).send({ message: 'Token has expired' });
   }
 
-  req.user = payload.sub;
+  req.hsId = payload.sub;
   next();
-}
-/*
- |--------------------------------------------------------------------------
- | Generate JSON Web Token
- |--------------------------------------------------------------------------
- */
+};
+
 function createToken(req, user) {
   var payload = {
     iss: req.hostname,
-    sub: user._id,
+    sub: user.hsId,
     iat: moment().unix(),
     exp: moment().add(14, 'days').unix()
   };

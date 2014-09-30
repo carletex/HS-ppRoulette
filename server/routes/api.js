@@ -1,9 +1,8 @@
 var express = require('express');
 var sessionController = require('../controllers/session');
-var userController = require('../controllers/user');
+var authController = require('../controllers/auth');
 var router = express.Router();
 
-router.get('/user/id', userController.getId);
-router.post('/session', sessionController.addSession);
+router.post('/session', authController.ensureAuthenticated, sessionController.addSession);
 
 module.exports = router;
