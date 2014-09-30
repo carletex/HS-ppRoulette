@@ -8,3 +8,10 @@ module.exports.addSession = function(req, res) {
     res.status(200).end();
   });
 };
+
+
+module.exports.assignRandomSession = function(req, res) {
+  Session.find({}, function(err, data){
+    console.log(data);
+  });
+};

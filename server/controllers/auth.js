@@ -28,7 +28,6 @@ module.exports.postHandler = function(req, res) {
         return;
       }
       User.findOne({hsId: profile.id}, function(err, existingUser) {
-        req.session.userId = profile.id;
         if (existingUser) {
           return res.send({
             token: createToken(req, existingUser)
