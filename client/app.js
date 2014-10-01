@@ -68,7 +68,7 @@ app.controller("LoginController", function($scope, $auth, $location) {
   });
 
   $scope.authenticate = function(provider) {
-    $auth.authenticate(provider).then(function (argument) {
+    $auth.authenticate(provider).then(function(argument) {
       $scope.isAuthenticated = true;
     });
   };
@@ -128,8 +128,13 @@ app.controller("MatchingController", function($scope, $http) {
   $scope.joinSession = function() {
     $http.post('/api/session/random')
       .success(function(data, status, headers, config) {
-        $scope.paired = true;
-        $scope.data = data;
+        if(data.error === 'no credit') {
+          $scope.paired = false;
+          $scope.errorMessage = "I'm sorry, Dave. I'm afraid I can't do that. You need at least one credit.";
+        } else {
+          $scope.paired = true;
+          $scope.data = data;
+        }
       })
       .error(function(data, status, headers, config) {
         throw 'Error' + status;
@@ -140,10 +145,10 @@ app.controller("MatchingController", function($scope, $http) {
 
 
 angular.module('ppRouletteApp')
-  .directive('ampm', function () {
+  .directive('ampm', function() {
     return {
       restrict: 'A',
-      link : function (scope, element, attrs, ngModelCtrl) {
+      link : function(scope, element, attrs, ngModelCtrl) {
         $(function() {
           var $hour = $('#hour');
           $hour.on('change', function(event) {
