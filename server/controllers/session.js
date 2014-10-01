@@ -3,6 +3,11 @@ var User = require('../models/user');
 
 
 module.exports.addSession = function(req, res) {
+  var today = new Date();
+  var selected = new Date(today.getFullYear(), today.getMonth(), today.getDay(), req.body.hour, req.body.minute);
+
+  req.body.date = selected;
+
   var session = new Session(req.body);
   session.hostId = req.hsId;
   session.save(function(err) {
@@ -48,7 +53,6 @@ module.exports.assignRandomSession = function(req, res) {
 module.exports.getSessionsStatus = function(req, res) {
   var now = new Date();
   var end = new Date(now.getFullYear(), now.getMonth(), now.getDay(), 18, 30);
-  console.log(now, end);
   Session.find({date: {$gte: now, $lt: end}})
     .distinct('hostId')
     .count(function (err, count) {

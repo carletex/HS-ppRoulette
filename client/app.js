@@ -91,7 +91,8 @@ app.controller("SessionController", function($scope, $http, $location) {
   $scope.addSession = function() {
     var session = {
       "description": $scope.description,
-      "date": $scope.date,
+      "hour": $scope.hour,
+      "minute": $scope.minute,
     };
 
     $http.post('/api/session', session)
@@ -99,7 +100,7 @@ app.controller("SessionController", function($scope, $http, $location) {
         $location.path('/dashboard');
       })
       .error(function(data, status, headers, config) {
-        console.log('Error', status);
+        throw 'Error' + status;
       });
   };
 });
@@ -110,24 +111,6 @@ app.controller("RandomController", function($scope, $http) {
       $scope.data = data;
     })
     .error(function(data, status, headers, config) {
-      console.log('Error', status);
-    })
+      throw 'Error' + status;
+    });
 });
-
-
-angular.module('ppRouletteApp')
-  .directive('timepicker', function () {
-    return {
-      restrict: 'A',
-      link : function (scope, element, attrs, ngModelCtrl) {
-        $(function() {
-          $(element).timepicker({
-            'scrollDefault': 'now',
-            'minTime': '10:30am',
-            'maxTime': '6:00pm',
-          });
-        });
-      }
-    };
-  });
-
