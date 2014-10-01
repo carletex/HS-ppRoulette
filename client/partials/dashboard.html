@@ -1,11 +1,19 @@
-<div>
-  <img src="{{ user.image }}" width="100" height="100"><br />
+<div class="hide-for-small medium-2 columns">
+  <img src="{{ user.image }}" width="100" height="100">
+</div>
+
+<div class="medium-8  columns">
   <p>Hello {{ user.displayName }}, you have
     <ng-pluralize count="user.credits"
       when="{'0': '{} pairing credit',
       'one': '{} pairing credit',
       'other': '{} pairing credits'}">
-    </ng-pluralize>
-</p>
-  <p>{{ sessionStatus }}</p>
+    </ng-pluralize>. Open up a few sessions to gain credit.
+  </p>
+  <p>There are currently {{ sessionStatus }} awaiting sessions.</p>
 </div>
+
+<div class="hide-for-small medium-2 columns">
+  <img src="https://d29xw0ra2h4o4u.cloudfront.net/assets/logo-no-text-c541e8fe687af4afc7f70bf63381c4a8.png" height="100">
+</div>
+

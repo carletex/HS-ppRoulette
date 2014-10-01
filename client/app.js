@@ -134,7 +134,8 @@ app.controller("MatchingController", function($scope, $http) {
       .success(function(data, status, headers, config) {
         if(data.error === 'no credit') {
           $scope.paired = false;
-          $scope.errorMessage = "I'm sorry, Dave. I'm afraid I can't do that. You need at least one credit.";
+          $scope.errorMessage = "I'm sorry, Dave. I'm afraid I can't do that. You need at least one credit. "+
+          "Please open a session to gain credit!";
         } else {
           $scope.paired = true;
           $scope.data = data;

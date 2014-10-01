@@ -1,8 +1,12 @@
-<p>Press the button to find a new session</p>
-<input type="submit" ng-click="joinSession()">
+<div class="medium-4 columns">
+  <button type="submit" ng-click="joinSession()">Do you really wanna pair?<br>(Hint: you do!)</button>
+</div>
 
-<div ng-show="errorMessage">
-  {{ errorMessage }}
+<div class="medium-8 columns" ng-if="errorMessage">
+  <code>{{ errorMessage }}</code>
+</div>
+<div class="medium-8 columns" ng-if="!errorMessage">
+  <p>You will be paired with somebody. This will cost you one credit and cannot be undone.</p>
 </div>
 
 <div ng-if="paired">
