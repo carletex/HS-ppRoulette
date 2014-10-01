@@ -8,6 +8,12 @@ module.exports.addSession = function(req, res) {
 
   req.body.date = selected;
 
+  User.getUserById(req.hsId, function(err, currentUser) {
+    var user = new User(currentUser).addCredit(function(err, data) {
+      console.log('Credits added!', data);
+    });
+  });
+
   var session = new Session(req.body);
   session.hostId = req.hsId;
   session.save(function(err) {
