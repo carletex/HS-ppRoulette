@@ -21,8 +21,8 @@ module.exports.assignRandomSession = function(req, res) {
   var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   Session.find({
-    'hsId' : {$ne: req.hsId},
-    'guestId': -1
+    hostId : {$ne: req.hsId},
+    guestId: -1
   }, function(err, data) {
 
     if (data.length) {
@@ -53,7 +53,7 @@ module.exports.assignRandomSession = function(req, res) {
 module.exports.getSessionsStatus = function(req, res) {
   var now = new Date();
   var end = new Date(now.getFullYear(), now.getMonth(), now.getDay(), 18, 30);
-  Session.find({date: {$gte: now, $lt: end}})
+  Session.find({date: {$gte: now, $lt: end}, hostId: {$ne: req.hsId}})
     .distinct('hostId')
     .count(function (err, count) {
       res.json(count);

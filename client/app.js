@@ -88,6 +88,24 @@ app.controller("DashboardController", function($scope, $http) {
 
 
 app.controller("SessionController", function($scope, $http, $location) {
+
+  var now = new Date();
+  var hour = now.getHours();
+  var minute = now.getMinutes();
+
+  var hourOptions = $('#hour > option');
+  var minuteOptions = $('#hour > option');
+
+  for (var i = 0; i < hourOptions.length; i++) {
+    if(hourOptions.eq(i).val() < hour) {
+      hourOptions.eq(i).attr('disabled', 'disabled');
+    }
+  }
+
+  $scope.hour = hour;
+
+  $scope.minute = 0;
+
   $scope.addSession = function() {
     var session = {
       "description": $scope.description,
@@ -109,6 +127,7 @@ app.controller("RandomController", function($scope, $http) {
   $http.get('/api/session/random')
     .success(function(data, status, headers, config) {
       $scope.data = data;
+      console.log(data);
     })
     .error(function(data, status, headers, config) {
       throw 'Error' + status;
@@ -124,7 +143,7 @@ angular.module('ppRouletteApp')
         $(function() {
           var $hour = $('#hour');
           $hour.on('change', function(event) {
-            if($hour.val() <= 12) {
+            if($hour.val() < 12) {
               $('#ampm').html('am');
             } else {
               $('#ampm').html('pm');
