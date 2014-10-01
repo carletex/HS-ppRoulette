@@ -12,12 +12,17 @@ var userSchema = new mongoose.Schema({
 });
 
 userSchema.statics.getUserById = function (id, cb) {
-  this.model('User').find({ hsId: id }, cb);
-}
+  this.model('User').findOne({ hsId: id }, cb);
+};
 
 userSchema.methods.addCredit = function (cb) {
   this.credits += 1;
   this.save(cb);
-}
+};
+
+userSchema.methods.removeCredit = function (cb) {
+  this.credits -= 1;
+  this.save(cb);
+};
 
 module.exports = mongoose.model('User', userSchema);

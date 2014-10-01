@@ -10,4 +10,15 @@ var sessionSchema = new mongoose.Schema({
   minimize: false
 });
 
+sessionSchema.statics.getOpenSessions = function(hsId, cb) {
+  this.model('Session').find({
+    hostId : {$ne: hsId},
+    guestId: -1
+  }, cb);
+};
+
+sessionSchema.methods.bookWith = function(guestId, cb) {
+  this.model('Session').update({guestId: guestId}, cb);
+};
+
 module.exports = mongoose.model('Session', sessionSchema);

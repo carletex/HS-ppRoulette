@@ -4,48 +4,56 @@ var User = require('../models/user');
 
 module.exports.addSession = function(req, res) {
   var today = new Date();
+  // create a new date according to user provided time
   var selected = new Date(today.getFullYear(), today.getMonth(), today.getDay(), req.body.hour, req.body.minute);
 
   req.body.date = selected;
+  req.body.hostId = req.hsId;
 
-  User.getUserById(req.hsId, function(err, currentUser) {
-    var user = new User(currentUser).addCredit(function(err, data) {
-      console.log('Credits added!', data);
-    });
-  });
-
+  // create the session
   var session = new Session(req.body);
-  session.hostId = req.hsId;
+
+  // save it
   session.save(function(err) {
-    res.status(200).end();
+    User.getUserById(req.hsId, function(err, currentUser) {
+      // add credit to the correct user
+      currentUser.addCredit(function(err, data) {
+        res.status(200).end();
+      });
+    });
   });
 };
 
 
 module.exports.assignRandomSession = function(req, res) {
-
   var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-  Session.find({
-    hostId : {$ne: req.hsId},
-    guestId: -1
-  }, function(err, data) {
+  // get all open slots
+  Session.getOpenSessions(req.hsId, function(err, sessions) {
 
-    if (data.length) {
-      randomEntry = data[Math.floor(Math.random() * data.length)];
-      randomEntryObject = randomEntry.toObject();
+    if (sessions.length) {
+      // pick one randomly
+      session = sessions[Math.floor(Math.random() * sessions.length)];
+      sessionJSON = session.toObject();
 
-      User.findOne({hsId: randomEntry.hostId}, function(err, data) {
+      User.getUserById(session.hostId, function(err, data) {
 
-        randomEntryObject.hostName = data.displayName;
-        randomEntryObject.day = week[randomEntryObject.date.getDay()];
-        randomEntryObject.hour = randomEntryObject.date.getHours() + ':' + randomEntryObject.date.getMinutes();
+        // stuff to display on the page
+        sessionJSON.hostName = data.displayName;
+        sessionJSON.day = week[sessionJSON.date.getDay()];
+        sessionJSON.hour = sessionJSON.date.getHours() + ':' + sessionJSON.date.getMinutes();
 
-        randomEntry.update({guestId: req.hsId}, function(err, numAffected) {
+        // actually book the session with me, and lose one of my credits
+        session.bookWith(req.hsId, function(err, numAffected) {
           if (numAffected !== 1 || err) {
             throw 'Something went wrong' + err;
           }
-          res.json(randomEntryObject);
+          User.getUserById(req.hsId, function(err, currentUser) {
+            currentUser.removeCredit(function(err, data) {
+              res.json(sessionJSON);
+            });
+          });
+
         });
 
       });
@@ -59,7 +67,7 @@ module.exports.assignRandomSession = function(req, res) {
 module.exports.getSessionsStatus = function(req, res) {
   var now = new Date();
   var end = new Date(now.getFullYear(), now.getMonth(), now.getDay(), 18, 30);
-  Session.find({date: {$gte: now, $lt: end}, hostId: {$ne: req.hsId}})
+  Session.find({date: {$gte: now, $lt: end}, hostId: {$ne: req.hsId}, guestId: -1})
     .distinct('hostId')
     .count(function (err, count) {
       res.json(count);
