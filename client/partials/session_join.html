@@ -1,6 +1,11 @@
-<div ng-show="data.hostName">
-  You've been paired with <strong>{{ data.hostName }}</strong> to work on <strong>{{ data.description }}</strong>. All you have to do now is to show up at they desk on <strong>{{ data.day }}</strong> at <strong>{{ data.hour }}</strong> and ask them what it's about. No time commitment required, but we do recommend spending an hour working together.
-</div>
-<div ng-show="!data.hostName">
-  There are no pairing slots available. Try it later.
+<p>Press the button to find a new session</p>
+<input type="submit" ng-click="joinSession()">
+
+<div ng-show="paired">
+  <div ng-show="data.hostName">
+    You've been paired with <strong>{{ data.hostName }}</strong> to work on <strong>{{ data.description }}</strong>. All you have to do now is to show up at they desk on <strong>{{ data.day }}</strong> at <strong>{{ data.hour }}</strong> and ask them what it's about. No time commitment required, but we do recommend spending an hour working together.
+  </div>
+  <div ng-show="!data.hostName">
+    There are no pairing slots available. Try it later.
+  </div>
 </div>

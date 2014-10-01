@@ -42,7 +42,7 @@ app.config(['$routeProvider', function($routeProvider) {
     })
     .when('/session/join', {
       templateUrl: '/partials/session_join.html',
-      controller: 'RandomController',
+      controller: 'MatchingController',
       resolve: {
         authenticated: ['$location', '$auth', function($location, $auth) {
           if (!$auth.isAuthenticated()) {
@@ -123,14 +123,19 @@ app.controller("SessionController", function($scope, $http, $location) {
   };
 });
 
-app.controller("RandomController", function($scope, $http) {
-  $http.get('/api/session/random')
-    .success(function(data, status, headers, config) {
-      $scope.data = data;
-    })
-    .error(function(data, status, headers, config) {
-      throw 'Error' + status;
-    });
+app.controller("MatchingController", function($scope, $http) {
+
+  $scope.joinSession = function() {
+    $http.post('/api/session/random')
+      .success(function(data, status, headers, config) {
+        $scope.paired = true;
+        $scope.data = data;
+      })
+      .error(function(data, status, headers, config) {
+        throw 'Error' + status;
+      });
+  }
+
 });
 
 
