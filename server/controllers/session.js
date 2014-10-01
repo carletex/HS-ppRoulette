@@ -44,3 +44,14 @@ module.exports.assignRandomSession = function(req, res) {
 
   });
 };
+
+module.exports.getSessionsStatus = function(req, res) {
+  var now = new Date();
+  var end = new Date(now.getFullYear(), now.getMonth(), now.getDay(), 18, 30);
+  console.log(now, end);
+  Session.find({date: {$gte: now, $lt: end}})
+    .distinct('hostId')
+    .count(function (err, count) {
+      res.json(count);
+    });
+};

@@ -75,8 +75,15 @@ app.controller("LoginController", function($scope, $auth, $location) {
 
 });
 
-app.controller("DashboardController", function($scope) {
-  $scope.user = 'Carlos';
+app.controller("DashboardController", function($scope, $http) {
+  $http.get('/api/user/me')
+    .success(function(data, status, headers, config) {
+      $scope.user = data;
+    });
+  $http.get('/api/session/status')
+    .success(function(data, status, headers, config) {
+      $scope.sessionStatus = data;
+    });
 });
 
 
