@@ -1,19 +1,20 @@
 <form ng-controller="SessionController" ng-submit="addSession()">
   <input type="text" ng-model="description">
-  <select ng-model="hour">
-    <option value="11">11am</option>
-    <option value="12">12am</option>
-    <option value="13">1pm</option>
-    <option value="14">2pm</option>
-    <option value="15">3pm</option>
-    <option value="16">4pm</option>
-    <option value="17">5pm</option>
+  <select ng-model="hour" id="hour">
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="13">1</option>
+    <option value="14">2</option>
+    <option value="15">3</option>
+    <option value="16">4</option>
+    <option value="17">5</option>
   </select>
-  <select ng-model="minute">
+  <select ng-model="minute" id="minute">
     <option value="00">00</option>
     <option value="15">15</option>
     <option value="30">30</option>
     <option value="45">45</option>
   </select>
+  <span id="ampm" ampm>am</span>
   <input type="submit" value="LOL">
 </form>

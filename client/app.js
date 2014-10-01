@@ -114,3 +114,23 @@ app.controller("RandomController", function($scope, $http) {
       throw 'Error' + status;
     });
 });
+
+
+angular.module('ppRouletteApp')
+  .directive('ampm', function () {
+    return {
+      restrict: 'A',
+      link : function (scope, element, attrs, ngModelCtrl) {
+        $(function() {
+          var $hour = $('#hour');
+          $hour.on('change', function(event) {
+            if($hour.val() <= 12) {
+              $('#ampm').html('am');
+            } else {
+              $('#ampm').html('pm');
+            }
+          });
+        });
+      }
+    };
+  });
