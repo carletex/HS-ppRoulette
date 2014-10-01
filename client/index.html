@@ -2,14 +2,16 @@
 <html lang="en" ng-app="ppRouletteApp">
 <head>
   <meta charset="UTF-8">
-  <title>ppRoulette</title>
+  <title>Pair Programming Roulette</title>
+  <link rel="stylesheet" href="bower_components/foundation/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/foundation/css/foundation.css">
 </head>
-<body>
-  <ul class="menu">
+<body ng-controller="AuthController">
+  <ul class="menu" ng-show="isAuthenticated">
     <li><a href="/#/session/add">Add Session</a></li>
     <li><a href="/#/session/join">Join Session</a></li>
   </ul>
-  <h1>ppRoulette</h1>
+  <h1>Pair Programming Roulette</h1>
 
   <div ng-view></div>
 
