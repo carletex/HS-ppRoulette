@@ -127,7 +127,6 @@ app.controller("RandomController", function($scope, $http) {
   $http.get('/api/session/random')
     .success(function(data, status, headers, config) {
       $scope.data = data;
-      console.log(data);
     })
     .error(function(data, status, headers, config) {
       throw 'Error' + status;
