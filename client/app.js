@@ -100,19 +100,25 @@ app.controller("SessionController", function($scope, $http, $location) {
   var hourOptions = $('#hour > option');
   var minuteOptions = $('#hour > option');
 
-  for (var i = 0; i < hourOptions.length; i++) {
-    if(hourOptions.eq(i).val() < hour) {
-      hourOptions.eq(i).attr('disabled', 'disabled');
-    }
-  }
-
   $scope.hour = hour;
-
   $scope.minute = 0;
+  $scope.day = 'today';
+
+  if (hour < 18) {
+    for (var i = 0; i < hourOptions.length; i++) {
+      if(hourOptions.eq(i).val() < hour) {
+        hourOptions.eq(i).attr('disabled', 'disabled');
+      }
+    }
+  } else {
+    $scope.day = 'tomorrow';
+    $scope.hour = 11;
+  }
 
   $scope.addSession = function() {
     var session = {
       "description": $scope.description,
+      "day": $scope.day,
       "hour": $scope.hour,
       "minute": $scope.minute,
     };

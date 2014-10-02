@@ -1,13 +1,25 @@
+var moment = require('moment');
 var Session = require('../models/session');
 var User = require('../models/user');
 
 
 module.exports.addSession = function(req, res) {
-  var today = new Date();
-  // create a new date according to user provided time
-  var selected = new Date(today.getFullYear(), today.getMonth(), today.getDay(), req.body.hour, req.body.minute);
+  var day = moment();
 
-  req.body.date = selected;
+  // create a new date according to user provided time
+  var selectedTime = day.hours(req.body.hour).minutes(req.body.minute);
+
+  // if booking for tomorrow, then date = date + 1 day
+  if (req.body.day === 'tomorrow')  {
+    selectedTime = selected.add(1, 'day');
+  }
+
+  // don't authorize sessions on sundays, fridays, saturdays
+  if (day.day() === 0 || day.day() === 5 || day.day() === 6) {
+    res.status(403).end();
+  }
+
+  req.body.date = selectedTime.toISOString();
   req.body.hostId = req.hsId;
 
   // create the session
@@ -73,7 +85,7 @@ module.exports.assignRandomSession = function(req, res) {
 
 module.exports.getSessionsStatus = function(req, res) {
   var now = new Date();
-  var end = new Date(now.getFullYear(), now.getMonth(), now.getDay(), 18, 30);
+  var end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 30);
   Session.find({date: {$gte: now, $lt: end}, hostId: {$ne: req.hsId}, guestId: -1})
     .distinct('hostId')
     .count(function(err, count) {
