@@ -9,11 +9,12 @@
 <body ng-controller="AuthController">
 
   <div class="contain-to-grid">
-    <nav class="top-bar" data-topbar role="navigation">
+    <top-bar>
       <ul class="title-area">
-        <li class="name">
-          <h1><a href="#">Pair Programming Roulette</a></h1>
+        <li class='name' id='logo'>
+          <h1><a href="/">Pair Programming Roulette</a></h1>
         </li>
+        <li toggle-top-bar class="menu-icon"><a href="#">Menu</a></li>
       </ul>
       <section class="top-bar-section" id="navigation">
         <ul class="right">
@@ -25,7 +26,7 @@
           </li>
         </ul>
       </section>
-    </nav>
+    </top-bar>
   </div>
 
   <div class="row"><div class="large-12 columns">&nbsp;</div></div>
@@ -36,6 +37,9 @@
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/satellizer/satellizer.js"></script>
   <script src="bower_components/jquery/dist/jquery.js"></script>
+
+  <script src="bower_components/angular-foundation/mm-foundation-tpls.min.js"></script>
+
   <script src="app.js"></script>
 
 </body>

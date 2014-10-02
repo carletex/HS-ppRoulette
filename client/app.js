@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('ppRouletteApp', ['ngRoute', 'satellizer']);
+var app = angular.module('ppRouletteApp', ['ngRoute', 'satellizer', 'mm.foundation', 'mm.foundation.topbar']);
 
 app.config(function($authProvider) {
   $authProvider.oauth2({
