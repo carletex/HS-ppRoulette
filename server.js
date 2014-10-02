@@ -3,9 +3,6 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var config = require('./config');
-var request = require('request');
-var moment = require('moment');
-var jwt = require('jwt-simple');
 
 var apiRoutes = require('./server/routes/api');
 var authRoutes = require('./server/routes/auth');
