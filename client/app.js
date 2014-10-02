@@ -62,6 +62,14 @@ app.config(['$routeProvider', function($routeProvider) {
         }]
       }
     })
+    .when('/logout', {
+      resolve: {
+        logout: ['$location', '$auth', function($location, $auth) {
+          $auth.logout();
+          return $location.path('/');
+        }]
+      }
+    })
     .otherwise({
       redirectTo: '/'
     });
