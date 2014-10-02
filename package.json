@@ -14,7 +14,6 @@
     "satellizer": "~0.7.0",
     "request": "~2.44.0",
     "moment": "~2.8.3",
-    "jwt-simple": "~0.2.0",
-    "express-session": "~1.8.2"
+    "jwt-simple": "~0.2.0"
   }
 }
