@@ -3,14 +3,14 @@
 </div>
 
 <div class="medium-8  columns">
-  <p>Hi {{ user.displayName }}, you have
-    <ng-pluralize count="user.credits"
-      when="{'0': '{} pairing credit. Open up a few sessions to gain credit',
-      'one': '{} pairing credit. Open up a few sessions to gain credit',
-      'other': '{} pairing credits'}">
-    </ng-pluralize>.
+  <p>Hi {{ user.displayName }}, you have <strong>{{ user.credits }}</strong>
+      <ng-pluralize count="user.credits"
+        when="{'0': ' pairing credit. Open up a few sessions to gain credit.',
+        'one': ' pairing credit.',
+        'other': ' pairing credits.'}">
+      </ng-pluralize>
   </p>
-  <p>There are currently {{ sessionStatus }} awaiting sessions.</p>
+  <p>There are currently <strong>{{ sessionStatus }}</strong> awaiting sessions.</p>
 </div>
 
 <div class="hide-for-small medium-2 columns">
@@ -18,7 +18,7 @@
 </div>
 
 
-<div class="row">
+<div class="row" style="clear:both">
   <div class="small-centered small-6 columns">
     <ul class="menu button-group">
       <li><form action="/#/session/add"><button class="button">Open Session</button></form></li>
