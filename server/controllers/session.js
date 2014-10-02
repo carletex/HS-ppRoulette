@@ -85,10 +85,11 @@ module.exports.assignRandomSession = function(req, res) {
 
 module.exports.getSessionsStatus = function(req, res) {
   var now = moment();
-  var end = now.hours(18).minutes(30);
+  var end = moment().hours(18).minutes(30);
   Session.find({
     date: {
-      $gte: now.toISOString(), $lt: end.toISOString()
+      $gte: now.toISOString(),
+      $lt: end.toISOString()
     },
     hostId: {
       $ne: req.hsId
@@ -104,20 +105,24 @@ module.exports.getSessionsStatus = function(req, res) {
 
 module.exports.listSessions = function(req, res) {
   var now = moment();
-  var end = now.hours(18).minutes(30).add(1, 'day');
+  var end = moment().hours(18).minutes(30).add(1, 'day');
   Session.find({
     date: {
       $gte: now.toISOString(),
       $lt: end.toISOString()
     },
-    hostId: {
-      $ne: req.hsId
-    },
-    guestId: {
-      $ne: -1
-    }
-  })
-    .distinct('hostId').exec(function(err, sessions) {
+    $or: [{
+      hostId: {
+        $ne: req.hsId
+      },
+      guestId: req.hsId
+    },{
+      hostId: req.hsId,
+      guestId: {
+        $ne: req.hsId
+      }
+    }]
+  }).exec(function(err, sessions) {
       console.log(sessions);
     });
 };

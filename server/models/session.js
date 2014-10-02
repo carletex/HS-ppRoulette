@@ -11,8 +11,8 @@ var sessionSchema = new mongoose.Schema({
 });
 
 sessionSchema.statics.getOpenSessions = function(hsId, cb) {
-  var now = new Date();
-  var end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 30);
+  var now = moment();
+  var end = moment().hours(18).minutes(30);
 
   this.model('Session').find({
     hostId : {$ne: hsId},
