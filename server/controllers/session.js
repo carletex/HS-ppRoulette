@@ -54,6 +54,7 @@ module.exports.assignRandomSession = function(req, res) {
 
             // stuff to display on the page
             sessionJSON.hostName = user.displayName;
+            sessionJSON.image = user.image;
             sessionJSON.day = week[sessionJSON.date.getDay()];
             sessionJSON.hour = sessionJSON.date.getHours() + ':' + sessionJSON.date.getMinutes();
 
