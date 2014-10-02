@@ -51,6 +51,17 @@ app.config(['$routeProvider', function($routeProvider) {
         }]
       }
     })
+    .when('/session/list', {
+      templateUrl: '/partials/session_list.html',
+      controller: 'SessionListController',
+      resolve: {
+        authenticated: ['$location', '$auth', function($location, $auth) {
+          if (!$auth.isAuthenticated()) {
+            return $location.path('/');
+          }
+        }]
+      }
+    })
     .otherwise({
       redirectTo: '/'
     });
@@ -152,6 +163,16 @@ app.controller("MatchingController", function($scope, $http) {
       });
   };
 
+});
+
+
+app.controller("SessionListController", function($scope, $http) {
+  $http.get('/api/session/list')
+    .success(function(data, status, headers, config) {
+      $scope.sessions = data;
+    }).error(function(data, status, headers, config) {
+      throw 'Error' + status;
+    });
 });
 
 

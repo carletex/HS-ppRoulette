@@ -84,11 +84,70 @@ module.exports.assignRandomSession = function(req, res) {
 };
 
 module.exports.getSessionsStatus = function(req, res) {
-  var now = new Date();
-  var end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 30);
-  Session.find({date: {$gte: now, $lt: end}, hostId: {$ne: req.hsId}, guestId: -1})
+  var now = moment();
+  var end = moment().hours(18).minutes(30);
+  Session.find({
+    date: {
+      $gte: now.toISOString(),
+      $lt: end.toISOString()
+    },
+    hostId: {
+      $ne: req.hsId
+    },
+    guestId: -1
+  })
     .distinct('hostId')
     .count(function(err, count) {
       res.json(count);
+    });
+};
+
+
+module.exports.listSessions = function(req, res) {
+  var now = moment();
+  var end = moment().hours(18).minutes(30).add(1, 'day');
+  Session.find({
+    date: {
+      $gte: now.toISOString(),
+      $lt: end.toISOString()
+    },
+    $or: [{
+      hostId: {
+        $ne: req.hsId
+      },
+      guestId: req.hsId
+    },{
+      hostId: req.hsId,
+      guestId: {
+        $ne: req.hsId
+      }
+    }]
+  }).exec(function(err, sessions) {
+      uids = [];
+      var session;
+      for (var i = 0; i < sessions.length; i++) {
+        if (sessions[i].hostId !== req.hsId) {
+          uids.push(sessions[i].hostId);
+        } else {
+          uids.push(sessions[i].guestId);
+        }
+      }
+      User.find({hsId: {$in: uids} }, function(err, users) {
+        var usersArray = [];
+        for (i = 0; i < users.length; i++) {
+          usersArray[users[i].hsId] = users[i];
+        }
+        var allSessions = [];
+        for (i = 0; i < sessions.length; i++) {
+          var session = sessions[i].toObject();
+          if (session.hostId !== req.hsId) {
+            session.displayName = usersArray[session.hostId].displayName;
+          } else {
+            session.displayName = usersArray[session.guestId].displayName;
+          }
+          allSessions.push(session);
+        }
+        res.json(allSessions);
+      });
     });
 };
