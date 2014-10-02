@@ -170,6 +170,8 @@ app.controller("SessionListController", function($scope, $http) {
   $http.get('/api/session/list')
     .success(function(data, status, headers, config) {
       $scope.sessions = data;
+    }).error(function(data, status, headers, config) {
+      throw 'Error' + status;
     });
 });
 
