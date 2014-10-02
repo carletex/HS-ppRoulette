@@ -36,7 +36,7 @@ module.exports.postHandler = function(req, res) {
 
         var user = new User({
           hsId: profile.id,
-          displayName: profile.first_name + ' ' + profile.last_name,
+          displayName: profile.first_name,
           email: profile.email,
           image: profile.has_photo ? profile.image : ''
         });

@@ -11,7 +11,7 @@ module.exports.addSession = function(req, res) {
 
   // if booking for tomorrow, then date = date + 1 day
   if (req.body.day === 'tomorrow')  {
-    selectedTime = selected.add(1, 'day');
+    selectedTime = selectedTime.add(1, 'day');
   }
 
   // don't authorize sessions on sundays, fridays, saturdays

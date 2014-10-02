@@ -3,12 +3,12 @@
 </div>
 
 <div class="medium-8  columns">
-  <p>Hello {{ user.displayName }}, you have
+  <p>Hi {{ user.displayName }}, you have
     <ng-pluralize count="user.credits"
-      when="{'0': '{} pairing credit',
-      'one': '{} pairing credit',
+      when="{'0': '{} pairing credit. Open up a few sessions to gain credit',
+      'one': '{} pairing credit. Open up a few sessions to gain credit',
       'other': '{} pairing credits'}">
-    </ng-pluralize>. Open up a few sessions to gain credit.
+    </ng-pluralize>.
   </p>
   <p>There are currently {{ sessionStatus }} awaiting sessions.</p>
 </div>
@@ -21,8 +21,8 @@
 <div class="row">
   <div class="small-centered small-6 columns">
     <ul class="menu button-group" ng-show="isAuthenticated">
-      <li><a href="/#/session/add" class="button">Open Session</a></li>
-      <li><a href="/#/session/join" class="button">Join Session</a></li>
+      <li><form action="/#/session/add"><button class="button">Open Session</button></form></li>
+      <li><form action="/#/session/join"><button class="button" ng-disabled="!user.credits">Join Session</button></form></li>
     </ul>
   </div>
 </div>
