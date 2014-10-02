@@ -23,7 +23,7 @@ sessionSchema.statics.getOpenSessions = function(hsId, cb) {
 };
 
 sessionSchema.methods.bookWith = function(guestId, cb) {
-  this.model('Session').update({guestId: guestId}, cb);
+  this.model('Session').update({_id: this._id}, {guestId: guestId}, cb);
 };
 
 module.exports = mongoose.model('Session', sessionSchema);
