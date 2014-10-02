@@ -145,7 +145,9 @@ module.exports.listSessions = function(req, res) {
           if (session.hostId !== req.hsId) {
             session.displayName = usersArray[session.hostId].displayName;
           } else {
-            session.displayName = usersArray[session.guestId].displayName;
+            if (session.guestId !== -1) {
+              session.displayName = usersArray[session.guestId].displayName;
+            }
           }
           allSessions.push(session);
         }
