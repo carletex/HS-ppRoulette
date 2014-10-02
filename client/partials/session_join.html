@@ -10,10 +10,10 @@
 </div>
 
 <div ng-if="paired">
-  <div ng-show="data.hostName">
+  <div ng-show="data.hostName" class="medium-12 columns">
     You've been paired with <strong>{{ data.hostName }}</strong> to work on <strong>{{ data.description }}</strong>. All you have to do now is to show up at they desk on <strong>{{ data.day }}</strong> at <strong>{{ data.hour }}</strong> and ask them what it's about. No time commitment required, but we do recommend spending an hour working together.
   </div>
-  <div ng-show="!data.hostName">
+  <div ng-show="!data.hostName" class="medium-12 columns">
     There are no pairing slots available for today. Try it later.
   </div>
 </div>
