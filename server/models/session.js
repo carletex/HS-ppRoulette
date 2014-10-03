@@ -13,12 +13,11 @@ var sessionSchema = new mongoose.Schema({
 
 sessionSchema.statics.getOpenSessions = function(hsId, cb) {
   var now = moment();
-  var end = moment().hours(18).minutes(30);
 
   this.model('Session').find({
     hostId : {$ne: hsId},
     guestId: -1,
-    date: {$gte: now, $lt: end}
+    date: {$gte: now}
   }, cb);
 };
 
@@ -27,16 +26,30 @@ sessionSchema.methods.bookWith = function(guestId, cb) {
 };
 
 sessionSchema.methods.isConflicting = function(hsId, cb) {
-  var now = moment(this.date);
+  var start = moment(this.date).subtract(10, 'minutes');
   var end = moment(this.date).add(45, 'minutes');
+  this.model('Session').find({
+    $or: [{
+      hostId: hsId,
+      date: {$gte: start, $lte: end}
+    }, {
+      guestId: hsId,
+      date: {$gte: start, $lte: end}
+    }]
+  }, cb);
+};
+
+sessionSchema.statics.getBookedSessions = function(hsId, cb) {
+  var now = moment(this.date);
 
   this.model('Session').find({
     $or: [{
       hostId: hsId,
-      date: {$gte: now, $lt: end}
+      guestId: {$ne: -1},
+      date: {$gte: now}
     }, {
       guestId: hsId,
-      date: {$gte: now, $lt: end}
+      date: {$gte: now}
     }]
   }, cb);
 };

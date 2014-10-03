@@ -12,7 +12,7 @@ module.exports.addSession = function(req, res) {
   if (req.body.day === 'tomorrow')  {
     selectedTime = selectedTime.add(1, 'day');
   } else if (req.body.day === 'monday') {
-    selectedTime = selectedTime.day('monday');
+    selectedTime = selectedTime.day(8); // see momentjs doc
   }
 
   req.body.date = selectedTime.toISOString();
@@ -21,8 +21,8 @@ module.exports.addSession = function(req, res) {
   // create the session
   var session = new Session(req.body);
 
-  session.isConflicting(req.hsId, function(err, data) {
-    if(data.length === 0) {
+  session.isConflicting(req.hsId, function(err, conflicts) {
+    if(conflicts.length === 0) {
       // save it
       session.save(function(err) {
         User.getUserById(req.hsId, function(err, currentUser) {
@@ -35,7 +35,7 @@ module.exports.addSession = function(req, res) {
     } else {
       res.json({
         'error': 'conflict',
-        'data': data[0]
+        'data': conflicts[0]
       });
     }
   });
@@ -49,6 +49,7 @@ module.exports.assignRandomSession = function(req, res) {
     if (user.credits) {
       // get all open slots
       Session.getOpenSessions(req.hsId, function(err, sessions) {
+        // filter out sessions with people I already got a session with
 
         if (sessions.length) {
           // pick one randomly
@@ -91,11 +92,9 @@ module.exports.assignRandomSession = function(req, res) {
 
 module.exports.getSessionsStatus = function(req, res) {
   var now = moment();
-  var end = moment().hours(18).minutes(30);
   Session.find({
     date: {
-      $gte: now.toISOString(),
-      $lt: end.toISOString()
+      $gte: now.toISOString()
     },
     hostId: {
       $ne: req.hsId
@@ -111,11 +110,9 @@ module.exports.getSessionsStatus = function(req, res) {
 
 module.exports.listSessions = function(req, res) {
   var now = moment();
-  var end = moment().hours(18).minutes(30).add(1, 'day');
   Session.find({
     date: {
-      $gte: now.toISOString(),
-      $lt: end.toISOString()
+      $gte: now.toISOString()
     },
     $or: [{
       hostId: {
