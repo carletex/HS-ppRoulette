@@ -26,12 +26,18 @@ sessionSchema.methods.bookWith = function(guestId, cb) {
   this.model('Session').update({_id: this._id}, {guestId: guestId}, cb);
 };
 
-sessionSchema.methods.isConflicting = function(cb) {
+sessionSchema.methods.isConflicting = function(hsId, cb) {
   var now = moment(this.date);
   var end = moment(this.date).add(45, 'minutes');
 
   this.model('Session').find({
-    date: {$gte: now, $lt: end}
+    $or: [{
+      hostId: hsId,
+      date: {$gte: now, $lt: end}
+    }, {
+      guestId: hsId,
+      date: {$gte: now, $lt: end}
+    }]
   }, cb);
 };
 

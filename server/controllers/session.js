@@ -21,7 +21,7 @@ module.exports.addSession = function(req, res) {
   // create the session
   var session = new Session(req.body);
 
-  session.isConflicting(function(err, data) {
+  session.isConflicting(req.hsId, function(err, data) {
     if(data.length === 0) {
       // save it
       session.save(function(err) {
