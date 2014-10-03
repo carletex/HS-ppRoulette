@@ -123,15 +123,15 @@ app.controller("SessionController", function($scope, $http, $location) {
   $scope.minute = 0;
   $scope.day = 'today';
 
-  if (hour < 18) {
+if (now.getDay() === 5 || now.getDay() === 6 || now.getDay() === 0) {
+    $scope.day = 'monday';
+    $scope.hour = 11;
+  } else if (hour < 18) {
     for (var i = 0; i < hourOptions.length; i++) {
       if(hourOptions.eq(i).val() < hour) {
         hourOptions.eq(i).attr('disabled', 'disabled');
       }
     }
-  } else {
-    $scope.day = 'tomorrow';
-    $scope.hour = 11;
   }
 
   $scope.addSession = function() {
@@ -142,9 +142,13 @@ app.controller("SessionController", function($scope, $http, $location) {
       "minute": $scope.minute,
     };
 
-    $http.post('/api/session', session)
+    $http.post('/api/session/add', session)
       .success(function(data, status, headers, config) {
-        $location.path('/dashboard');
+        if(!data.error) {
+          $location.path('/dashboard');
+        } else {
+          $scope.error = data;
+        }
       })
       .error(function(data, status, headers, config) {
         throw 'Error' + status;

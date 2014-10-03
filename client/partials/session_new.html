@@ -24,5 +24,9 @@
     <p>
       <button type="submit">I'm ready to pair.</button>
     </p>
+
+    <p ng-if="error.error === 'conflict'">
+      This session would be conflicting with a previous session you booked at {{ error.data.date | date:'MM/dd HH:mm' }}.
+    </p>
   </form>
 </div>

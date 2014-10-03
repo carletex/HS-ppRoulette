@@ -9,14 +9,10 @@ module.exports.addSession = function(req, res) {
   // create a new date according to user provided time
   var selectedTime = day.hours(req.body.hour).minutes(req.body.minute);
 
-  // if booking for tomorrow, then date = date + 1 day
   if (req.body.day === 'tomorrow')  {
     selectedTime = selectedTime.add(1, 'day');
-  }
-
-  // don't authorize sessions on sundays, fridays, saturdays
-  if (day.day() === 0 || day.day() === 5 || day.day() === 6) {
-    res.status(403).end();
+  } else if (req.body.day === 'monday') {
+    selectedTime = selectedTime.day('monday');
   }
 
   req.body.date = selectedTime.toISOString();
@@ -25,14 +21,23 @@ module.exports.addSession = function(req, res) {
   // create the session
   var session = new Session(req.body);
 
-  // save it
-  session.save(function(err) {
-    User.getUserById(req.hsId, function(err, currentUser) {
-      // add credit to the correct user
-      currentUser.addCredit(function(err, data) {
-        res.status(200).end();
+  session.isConflicting(function(err, data) {
+    if(data.length === 0) {
+      // save it
+      session.save(function(err) {
+        User.getUserById(req.hsId, function(err, currentUser) {
+          // add credit to the correct user
+          currentUser.addCredit(function(err, data) {
+            res.json({'error': null});
+          });
+        });
       });
-    });
+    } else {
+      res.json({
+        'error': 'conflict',
+        'data': data[0]
+      });
+    }
   });
 };
 
