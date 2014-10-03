@@ -26,7 +26,7 @@ sessionSchema.methods.bookWith = function(guestId, cb) {
 };
 
 sessionSchema.methods.isConflicting = function(hsId, cb) {
-  var start = moment(this.date).subtract(10, 'minutes');
+  var start = moment(this.date).subtract(45, 'minutes');
   var end = moment(this.date).add(45, 'minutes');
   this.model('Session').find({
     $or: [{
