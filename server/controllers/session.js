@@ -1,6 +1,8 @@
+var config = require('../../config');
 var moment = require('moment');
 var Session = require('../models/session');
 var User = require('../models/user');
+var zulip = require('zulip');
 
 
 module.exports.addSession = function(req, res) {
@@ -60,6 +62,7 @@ module.exports.assignRandomSession = function(req, res) {
 
             // stuff to display on the page
             sessionJSON.hostName = user.displayName;
+            sessionJSON.hostEmail = user.email;
             sessionJSON.image = user.image;
             sessionJSON.day = week[sessionJSON.date.getDay()];
             sessionJSON.hour = sessionJSON.date.getHours() + ':' + sessionJSON.date.getMinutes();
@@ -71,7 +74,22 @@ module.exports.assignRandomSession = function(req, res) {
               }
               User.getUserById(req.hsId, function(err, currentUser) {
                 currentUser.removeCredit(function(err, data) {
-                  res.json(sessionJSON);
+                  var client = new zulip.Client({
+                    email: "pair-programming-roulette-bot@students.hackerschool.com",
+                    api_key: config.ZULIP_SECRET,
+                    verbose: false
+                  });
+                  client.sendMessage({
+                    type: "private",
+                    content: "Hey you two, you've been paired. Meet at " + sessionJSON.hostName + "'s desk at " + sessionJSON.hour + " on " + sessionJSON.day + ".",
+                    to: [sessionJSON.hostEmail, currentUser.email]
+                  }, function (error, response) {
+                    if (error) {
+                      console.log("Zulip error: ", error);
+                    } else {
+                      res.json(sessionJSON);
+                    }
+                  });
                 });
               });
 
