@@ -78,7 +78,6 @@ module.exports.assignRandomSession = function(req, res) {
 
           });
         } else {
-          console.log('No session.')
           res.json({});
         }
 
