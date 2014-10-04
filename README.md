@@ -18,4 +18,5 @@ Install the package with npm:
    export HS_SECRET='<your_hackerschool_app_consumer_secret>'
    ```
 3. Put those variables in your environment with `$ source keys.sh`
-4. Run `node server` and visit http://127.0.0.1:8000 in your browser
+4. In `client/app.js` set `clientID: '<your_hackerschool_app_client_id>'` and `redirectUri: 'http://127.0.0.1:8000`
+5. Run `node server` and visit http://127.0.0.1:8000 in your browser
