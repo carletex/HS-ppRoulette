@@ -195,19 +195,19 @@ angular.module('ppRouletteApp')
       link : function(scope, element, attrs, ngModelCtrl) {
         $(function() {
           var $hour = $('#hour');
-          if($hour.val() < 12) {
-            $('#ampm').html('am');
-          } else {
-            $('#ampm').html('pm');
-          }
-          $hour.on('change', function(event) {
+          var adjustTime = function() {
             if($hour.val() < 12) {
               $('#ampm').html('am');
             } else {
               $('#ampm').html('pm');
             }
+          };
+          adjustTime();
+          $hour.on('change', function(event) {
+            adjustTime();
           });
         });
       }
     };
   });
+
