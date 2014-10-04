@@ -13,12 +13,19 @@ body {
     background-color: #aaa;
 }
 
-.page-login {
+.page-roulette {
     min-height: 540px;
     background: url('../pictures/pp-logo.png') no-repeat center;
 }
-.page-login > div > div {
+.page-roulette > div > div {
     margin-left: 16px;
     margin-top: 237px;
     text-align: center;
+}
+
+.roulette {
+    min-height: 300px;
+    padding-top: 119px;
+    padding-left: 100px;
+    background: url('../pictures/pp-logo-small.png') no-repeat center;
 }

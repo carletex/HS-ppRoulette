@@ -1,6 +1,6 @@
 <div class="row">
-  <div class="medium-4 columns">
-    <button class="primary" type="submit" ng-click="joinSession()">I wanna pair!</button>
+  <div class="medium-4 columns roulette">
+    <button class="primary" type="submit" ng-click="joinSession()">Pair me!</button>
   </div>
 
   <div class="medium-8 columns" ng-if="errorMessage">
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div ng-show="!data.hostName" class="medium-8 columns">
-      There are no pairing slots available for today. Try again later.
+      There are no pairing slots available for now. Try again later.
     </div>
   </div>
 </div>
