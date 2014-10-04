@@ -13,12 +13,33 @@ var sessionSchema = new mongoose.Schema({
 
 sessionSchema.statics.getOpenSessions = function(hsId, cb) {
   var now = moment();
+  var self = this;
+  // First, find my current session. Then, find the open session from people
+  // I'm not already involved with.
+  self.model('Session').find({
+    $or: [{
+      hostId: hsId,
+      date: {$gte: now}
+    }, {
+      guestId: hsId,
+      date: {$gte: now}
+    }]}, function(err, futureBookedSessions) {
+      var alreadyBooked = [hsId]; // I don't want to book with myself
+      for (var i = 0; i < futureBookedSessions.length; i++) {
+        if (futureBookedSessions[0].guestId === hsId) {
+          alreadyBooked.push(futureBookedSessions[0].hostId);
+        } else {
+          alreadyBooked.push(futureBookedSessions[0].guestId);
+        }
+      }
 
-  this.model('Session').find({
-    hostId : {$ne: hsId},
-    guestId: -1,
-    date: {$gte: now}
-  }, cb);
+      self.model('Session').find({
+        hostId : {$nin: alreadyBooked},
+        guestId: -1,
+        date: {$gte: now}
+      }, cb);
+
+    });
 };
 
 sessionSchema.methods.bookWith = function(guestId, cb) {
