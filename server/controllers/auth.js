@@ -24,7 +24,7 @@ module.exports.postHandler = function(req, res) {
     // Step 2. Retrieve profile information about the current user.
     request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
       if (!profile || profile.message === 'unauthorized') {
-        console.log('unauthorized');
+        console.log('Unauthorized. Did you correctly set up the ENV keys?');
         return;
       }
       User.findOne({hsId: profile.id}, function(err, existingUser) {
