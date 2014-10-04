@@ -6,10 +6,10 @@ body {
     background-color: #61ae24;
     border-color: #61ae24;
 }
-.primary:hover {
+.primary:hover, primary:focus {
     background-color: #241c1c;
 }
-.primary[disabled="disabled"],.primary[disabled="disabled"]:hover {
+.primary[disabled="disabled"], .primary[disabled="disabled"]:hover {
     background-color: #aaa;
 }
 

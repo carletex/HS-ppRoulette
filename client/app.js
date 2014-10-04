@@ -6,9 +6,9 @@ app.config(function($authProvider) {
   $authProvider.oauth2({
     url: '/auth/hackerschool',
     name: 'hackerschool',
-    clientId: '739f680eb7db4708a2a9bacc396051822e3e95074a3215eddfae7e985d8cd462',
+    clientId: '09ba9c980f22ca1058d4aef36e1daff22d28581010f95265d6b1ae3e09a0d027',
     authorizationEndpoint: 'https://www.hackerschool.com/oauth/authorize',
-    redirectUri: "http://fathomless-mesa-6023.herokuapp.com/"
+    redirectUri: "http://127.0.0.1:8000"
   });
 });
 
