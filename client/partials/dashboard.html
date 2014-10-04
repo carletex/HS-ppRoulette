@@ -1,27 +1,29 @@
-<div class="hide-for-small medium-2 columns">
-  <img src="{{ user.image }}" width="100" height="100">
-</div>
+<div class="row">
+  <div class="hide-for-small medium-2 columns">
+    <img src="{{ user.image }}" width="100" height="100">
+  </div>
 
-<div class="medium-8  columns">
-  <p>Hi {{ user.displayName }}, you have <strong>{{ user.credits }}</strong>
-      <ng-pluralize count="user.credits"
-        when="{'0': ' pairing credit. Open up a few sessions to gain credit.',
-        'one': ' pairing credit.',
-        'other': ' pairing credits.'}">
-      </ng-pluralize>
-  </p>
-  <p>There are currently <strong>{{ sessionStatus }}</strong> awaiting sessions.</p>
-</div>
+  <div class="medium-8  columns">
+    <p>Hi {{ user.displayName }}, you have <strong>{{ user.credits }}</strong>
+        <ng-pluralize count="user.credits"
+          when="{'0': ' pairing credit. Open up a few sessions to gain credit.',
+          'one': ' pairing credit.',
+          'other': ' pairing credits.'}">
+        </ng-pluralize>
+    </p>
+    <p>There are currently <strong>{{ sessionStatus }}</strong> awaiting sessions.</p>
+  </div>
 
-<div class="hide-for-small medium-2 columns">
-  <img src="https://d29xw0ra2h4o4u.cloudfront.net/assets/logo-no-text-c541e8fe687af4afc7f70bf63381c4a8.png" height="100">
-</div>
+  <div class="hide-for-small medium-2 columns">
+    <img src="https://d29xw0ra2h4o4u.cloudfront.net/assets/logo-no-text-c541e8fe687af4afc7f70bf63381c4a8.png" height="100">
+  </div>
 
 
-<div class="row" style="clear:both">
-  <div class="small-centered small-6 columns">
-      <form action="/#/session/add" style="display: inline-block"><button class="button">Host Session</button></form>
-      <form action="/#/session/join" style="display: inline-block"><button class="button" ng-disabled="!user.credits">Join Session</button></form>
-    </ul>
+  <div class="row" style="clear:both">
+    <div class="small-centered small-6 columns">
+        <form action="/#/session/add" style="display: inline-block"><button class="primary button">Host Session</button></form>
+        <form action="/#/session/join" style="display: inline-block"><button class="primary button" ng-disabled="!user.credits">Join Session</button></form>
+      </ul>
+    </div>
   </div>
 </div>

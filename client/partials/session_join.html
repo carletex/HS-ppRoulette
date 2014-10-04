@@ -1,28 +1,29 @@
-<div class="medium-4 columns">
-  <button type="submit" ng-click="joinSession()">I wanna pair!</button>
-</div>
+<div class="row">
+  <div class="medium-4 columns">
+    <button class="primary" type="submit" ng-click="joinSession()">I wanna pair!</button>
+  </div>
 
-<div class="medium-8 columns" ng-if="errorMessage">
-  <code>{{ errorMessage }}</code>
-</div>
-<div class="medium-8 columns" ng-if="!errorMessage && !paired">
-  <p>You will be paired with somebody. This will cost you one credit and cannot be undone.</p>
-</div>
+  <div class="medium-8 columns" ng-if="errorMessage">
+    <code>{{ errorMessage }}</code>
+  </div>
+  <div class="medium-8 columns" ng-if="!errorMessage && !paired">
+    <p>You will be paired with somebody. This will cost you one credit and cannot be undone.</p>
+  </div>
 
-<div ng-if="paired">
-  <div ng-show="data.hostName" class="medium-8 columns">
-    <div class="row">
-      <div class="medium-3 columns">
-            <img src="{{ data.image }}" alt="{{ data.hostName }}">
-
-      </div>
-      <div class="medium-9 columns">
-        <p>You've been paired with <strong>{{ data.hostName }}</strong> to work on <strong>{{ data.description }}</strong>.</p>
-        <p>All you have to do now is to show up at they desk on <strong>{{ data.day }}</strong> at <strong>{{ data.hour }}</strong> and ask them what it's about. No time commitment required, but we do recommend spending an hour working together.</p>
+  <div ng-if="paired">
+    <div ng-show="data.hostName" class="medium-8 columns">
+      <div class="row">
+        <div class="medium-3 columns">
+          <img src="{{ data.image }}" alt="{{ data.hostName }}">
+        </div>
+        <div class="medium-9 columns">
+          <p>You've been paired with <strong>{{ data.hostName }}</strong> to work on <strong>{{ data.description }}</strong>.</p>
+          <p>All you have to do now is to show up at they desk on <strong>{{ data.day }}</strong> at <strong>{{ data.hour }}</strong> and ask them what it's about. No time commitment required, but we do recommend spending an hour working together.</p>
+        </div>
       </div>
     </div>
-  </div>
-  <div ng-show="!data.hostName" class="medium-8 columns">
-    There are no pairing slots available for today. Try it later.
+    <div ng-show="!data.hostName" class="medium-8 columns">
+      There are no pairing slots available for today. Try again later.
+    </div>
   </div>
 </div>

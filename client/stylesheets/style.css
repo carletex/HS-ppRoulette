@@ -1,8 +1,24 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    color: #241c1c;
 }
 
-a {
-  color: #00B7FF;
+.primary {
+    background-color: #61ae24;
+    border-color: #61ae24;
+}
+.primary:hover {
+    background-color: #241c1c;
+}
+.primary[disabled="disabled"],.primary[disabled="disabled"]:hover {
+    background-color: #aaa;
+}
+
+.page-login {
+    min-height: 540px;
+    background: url('../pictures/pp-logo.png') no-repeat center;
+}
+.page-login > div > div {
+    margin-left: 16px;
+    margin-top: 237px;
+    text-align: center;
 }

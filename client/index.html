@@ -5,6 +5,7 @@
   <title>Pair Programming Roulette</title>
   <link rel="stylesheet" href="bower_components/foundation/css/normalize.css">
   <link rel="stylesheet" href="bower_components/foundation/css/foundation.css">
+  <link rel="stylesheet" href="stylesheets/style.css">
 </head>
 <body ng-controller="AuthController">
 
@@ -12,7 +13,7 @@
     <top-bar>
       <ul class="title-area">
         <li class='name' id='logo'>
-          <h1><a href="/">Pair Programming Roulette</a></h1>
+          <h1><a href="/"><img src="pictures/pp-logo.png" height="20" width="20"> Pair Programming Roulette</a></h1>
         </li>
         <li toggle-top-bar class="menu-icon"><a href="#">Menu</a></li>
       </ul>
@@ -31,7 +32,7 @@
 
   <div class="row"><div class="large-12 columns">&nbsp;</div></div>
 
-  <div class="row" ng-view></div>
+  <div ng-view></div>
 
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>

@@ -1,32 +1,38 @@
-<div class="large-12 columns">
-  <form ng-submit="addSession()">
-    <input type="text" ng-model="description" placeholder="Describe shortly what you will work on.">
-    <p>
-      {{ day }}
-      <select ng-model="hour" id="hour" style="width: 60px;">
-        <option value="11">11</option>
-        <option value="12">12</option>
-        <option value="13">1</option>
-        <option value="14">2</option>
-        <option value="15">3</option>
-        <option value="16">4</option>
-        <option value="17">5</option>
-      </select>
-      <select ng-model="minute" id="minute" style="width: 60px">
-        <option value="0">00</option>
-        <option value="15">15</option>
-        <option value="30">30</option>
-        <option value="45">45</option>
-      </select>
-      <span id="ampm" ampm>am</span>
-    </p>
+<div class="row">
+  <div class="small-2 columns">
+    <label for="description" class="right inline">what</label>
+    <label for="hour" class="right inline">when</label>
+  </div>
+  <div class="small-10 columns">
+    <form ng-submit="addSession()">
+      <input type="text" id="description" ng-model="description" placeholder="Describe shortly what you will work on.">
+      <p>
+        {{ day }}
+        <select id="hour" ng-model="hour" id="hour" style="width: 60px;">
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">1</option>
+          <option value="14">2</option>
+          <option value="15">3</option>
+          <option value="16">4</option>
+          <option value="17">5</option>
+        </select>
+        <select ng-model="minute" id="minute" style="width: 60px">
+          <option value="0">00</option>
+          <option value="15">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
+        </select>
+        <span id="ampm" ampm>am</span>
+      </p>
 
-    <p>
-      <button type="submit">I'm ready to pair.</button>
-    </p>
+      <p>
+        <button class="primary" type="submit">I'm ready to pair.</button>
+      </p>
 
-    <p ng-if="error.error === 'conflict'">
-      This session would be conflicting with a previous session you booked at {{ error.data.date | date:'MM/dd HH:mm' }}.
-    </p>
-  </form>
+      <p ng-if="error.error === 'conflict'">
+        This session would be conflicting with a previous session you booked at {{ error.data.date | date:'MM/dd HH:mm' }}.
+      </p>
+    </form>
+  </div>
 </div>

@@ -1,8 +1,10 @@
-<div class="medium-12 columns">
-  <ul>
-    <li ng-if="!sessions.length">You have no session booked.</li>
-    <li data-ng-repeat="session in sessions">
-      {{ session.date | date:'MM/dd HH:mm'}} : You're pairing with <strong>{{ session.displayName }}</strong> (<strong>{{ session.description }}</strong>)
-    </li>
-  </ul>
+<div class="row">
+  <div class="medium-12 columns">
+    <ul>
+      <li ng-if="!sessions.length">You have no session booked.</li>
+      <li data-ng-repeat="session in sessions">
+        {{ session.date | date:'MM/dd HH:mm'}} : You're pairing with <strong>{{ session.displayName }}</strong> (<strong>{{ session.description }}</strong>)
+      </li>
+    </ul>
+  </div>
 </div>
