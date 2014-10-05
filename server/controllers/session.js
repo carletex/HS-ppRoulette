@@ -74,16 +74,7 @@ module.exports.assignRandomSession = function(req, res) {
               }
               User.getUserById(req.hsId, function(err, currentUser) {
                 currentUser.removeCredit(function(err, data) {
-                  var client = new zulip.Client({
-                    email: "pair-programming-roulette-bot@students.hackerschool.com",
-                    api_key: config.ZULIP_SECRET,
-                    verbose: false
-                  });
-                  client.sendMessage({
-                    type: "private",
-                    content: "Hey you two, you've been paired. Meet at " + sessionJSON.hostName + "'s desk at " + sessionJSON.hour + " on " + sessionJSON.day + ".",
-                    to: [sessionJSON.hostEmail, currentUser.email]
-                  }, function (error, response) {
+                  zulipNotify(sessionJSON, currentUser, function (error, response) {
                     if (error) {
                       console.log("Zulip error: ", error);
                     } else {
@@ -112,7 +103,7 @@ module.exports.getSessionsStatus = function(req, res) {
   var now = moment();
   Session.find({
     date: {
-      $gte: now.toISOString()
+      $gte: now
     },
     hostId: {
       $ne: req.hsId
@@ -130,7 +121,7 @@ module.exports.listSessions = function(req, res) {
   var now = moment();
   Session.find({
     date: {
-      $gte: now.toISOString()
+      $gte: now
     },
     $or: [{
       hostId: {
@@ -174,3 +165,16 @@ module.exports.listSessions = function(req, res) {
       });
     });
 };
+
+function zulipNotify(sessionJSON, currentUser, cb) {
+  var client = new zulip.Client({
+    email: "pair-programming-roulette-bot@students.hackerschool.com",
+    api_key: config.ZULIP_SECRET,
+    verbose: false
+  });
+  client.sendMessage({
+    type: "private",
+    content: "Hey you two, you've been paired. Meet at " + sessionJSON.hostName + "'s desk at " + sessionJSON.hour + " on " + sessionJSON.day + ".",
+    to: [sessionJSON.zulipEmail || sessionJSON.hostEmail, currentUser.zulipEmail || currentUser.email]
+  }, cb);
+}
