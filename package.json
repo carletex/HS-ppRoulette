@@ -5,7 +5,7 @@
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/carletex/HS-ppRoulett"
+    "url": "https://github.com/carletex/HS-ppRoulette"
   },
   "dependencies": {
     "express": "~4.2.0",
