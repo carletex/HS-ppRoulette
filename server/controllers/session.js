@@ -173,6 +173,14 @@ function zulipNotifyPairs(sessionJSON, currentUser, cb) {
     api_key: config.ZULIP_SECRET,
     verbose: false
   });
+
+  client.sendMessage({
+    type: "stream",
+    content: "Splendid! " + sessionJSON.hostName + " and " + currentUser.displayName + " have been paired!",
+    to: ['pairing'],
+    subject: "roulette (roulette.herokuapp.com)"
+  });
+
   client.sendMessage({
     type: "private",
     content: "Hey you two, you've been paired. Meet at " + sessionJSON.hostName + "'s desk at " + sessionJSON.hour + " on " + sessionJSON.day + ".",
