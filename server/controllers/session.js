@@ -30,6 +30,7 @@ module.exports.addSession = function(req, res) {
         User.getUserById(req.hsId, function(err, currentUser) {
           // add credit to the correct user
           currentUser.addCredit(function(err, data) {
+            zulipNotifyStream(session.description);
             res.json({'error': null});
           });
         });
@@ -74,7 +75,7 @@ module.exports.assignRandomSession = function(req, res) {
               }
               User.getUserById(req.hsId, function(err, currentUser) {
                 currentUser.removeCredit(function(err, data) {
-                  zulipNotify(sessionJSON, currentUser, function (error, response) {
+                  zulipNotifyPairs(sessionJSON, currentUser, function (error, response) {
                     if (error) {
                       console.log("Zulip error: ", error);
                     } else {
@@ -166,7 +167,7 @@ module.exports.listSessions = function(req, res) {
     });
 };
 
-function zulipNotify(sessionJSON, currentUser, cb) {
+function zulipNotifyPairs(sessionJSON, currentUser, cb) {
   var client = new zulip.Client({
     email: "pair-programming-roulette-bot@students.hackerschool.com",
     api_key: config.ZULIP_SECRET,
@@ -177,4 +178,27 @@ function zulipNotify(sessionJSON, currentUser, cb) {
     content: "Hey you two, you've been paired. Meet at " + sessionJSON.hostName + "'s desk at " + sessionJSON.hour + " on " + sessionJSON.day + ".",
     to: [sessionJSON.zulipEmail || sessionJSON.hostEmail, currentUser.zulipEmail || currentUser.email]
   }, cb);
+}
+
+
+function zulipNotifyStream(description) {
+  var client = new zulip.Client({
+    email: "pair-programming-roulette-bot@students.hackerschool.com",
+    api_key: config.ZULIP_SECRET,
+    verbose: false
+  });
+
+  var contents = [
+    'Awesome, somebody just opened a slot! Come play with us!',
+    'A new session is up on the roulette. Wanna pair?',
+    'Have you paired for this week yet? If not, there are an open slots in the roulette app!',
+    'Someone opened up a pairing session for "' + description + '". Try to get it!'
+  ];
+  var content = contents[Math.floor(Math.random() * contents.length)];
+  client.sendMessage({
+    type: "stream",
+    content: content,
+    to: ['pairing'],
+    subject: "roulette (roulette.herokuapp.com)"
+  });
 }
