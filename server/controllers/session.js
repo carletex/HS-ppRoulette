@@ -66,7 +66,8 @@ module.exports.assignRandomSession = function(req, res) {
             sessionJSON.hostEmail = user.email;
             sessionJSON.image = user.image;
             sessionJSON.day = week[sessionJSON.date.getDay()];
-            sessionJSON.hour = sessionJSON.date.getHours() + ':' + sessionJSON.date.getMinutes();
+            minutes = sessionJSON.date.getMinutes() < 10 ? '0' + sessionJSON.date.getMinutes() : sessionJSON.date.getMinutes();
+            sessionJSON.hour = sessionJSON.date.getHours() + ':' + minutes;
 
             // actually book the session with me, and lose one of my credits
             session.bookWith(req.hsId, function(err, numAffected) {
