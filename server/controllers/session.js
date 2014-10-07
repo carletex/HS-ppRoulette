@@ -72,7 +72,7 @@ module.exports.assignRandomSession = function(req, res) {
             // actually book the session with me, and lose one of my credits
             session.bookWith(req.hsId, function(err, numAffected) {
               if (numAffected !== 1 || err) {
-                throw 'Something went wrong' + err;
+                console.log('Something went wrong' + err);
               }
               User.getUserById(req.hsId, function(err, currentUser) {
                 currentUser.removeCredit(function(err, data) {

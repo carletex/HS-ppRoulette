@@ -6,7 +6,7 @@ module.exports.getUserData = function(req, res) {
     'hsId' : req.hsId
   }, function(err, data) {
     if(err) {
-      throw err;
+      console.log(err);
     }
     return res.json(data);
   });
