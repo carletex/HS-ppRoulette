@@ -123,7 +123,7 @@ app.controller("SessionController", function($scope, $http, $location) {
   $scope.minute = 0;
   $scope.day = 'today';
 
-if (now.getDay() === 5 || now.getDay() === 6 || now.getDay() === 0) {
+  if (now.getDay() === 5 || now.getDay() === 6 || now.getDay() === 0) {
     $scope.day = 'monday';
     $scope.hour = 11;
   } else if (hour < 18) {
@@ -132,6 +132,9 @@ if (now.getDay() === 5 || now.getDay() === 6 || now.getDay() === 0) {
         hourOptions.eq(i).attr('disabled', 'disabled');
       }
     }
+  } else {
+    $scope.day = 'tomorrow';
+    $scope.hour = 11;
   }
 
   $scope.addSession = function() {
