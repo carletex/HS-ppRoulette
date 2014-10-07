@@ -202,7 +202,7 @@ app.controller("SessionListController", function($scope, $http) {
 });
 
 
-app.controller("SettingsController", function($scope, $http) {
+app.controller("SettingsController", function($scope, $http, $location) {
   $http.get('/api/user/me')
     .success(function(data, status, headers, config) {
       $scope.zulipEmail = data.zulipEmail;
