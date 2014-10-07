@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="small-12 columns">
+    <p>In some cases, people prefer not to use the same email address on both HackerSchool and Zulip. If this is your case, please enter the email address you're using on Zulip in the field below. This way, we'll be able to send you notifications.</p>
+    <form ng-submit="updateSettings()">
+      <input type="text" ng-model="zulipEmail" value="{{ zulipEmail }}">
+      <button>Save</button>
+    </form>
+  </div>
+</div>

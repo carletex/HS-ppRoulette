@@ -9,5 +9,6 @@ router.post('/session/random', authController.ensureAuthenticated, sessionContro
 router.get('/session/status', authController.ensureAuthenticated, sessionController.getSessionsStatus);
 router.get('/session/list', authController.ensureAuthenticated, sessionController.listSessions);
 router.get('/user/me', authController.ensureAuthenticated, userController.getUserData);
+router.post('/user/me', authController.ensureAuthenticated, userController.setUserData);
 
 module.exports = router;

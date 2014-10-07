@@ -38,6 +38,7 @@ module.exports.postHandler = function(req, res) {
           hsId: profile.id,
           displayName: profile.first_name,
           email: profile.email,
+          zulipEmail: profile.email,
           image: profile.has_photo ? profile.image : ''
         });
 

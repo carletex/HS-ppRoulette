@@ -62,6 +62,17 @@ app.config(['$routeProvider', function($routeProvider) {
         }]
       }
     })
+    .when('/settings', {
+      templateUrl: '/partials/settings.html',
+      controller: 'SettingsController',
+      resolve: {
+        authenticated: ['$location', '$auth', function($location, $auth) {
+          if (!$auth.isAuthenticated()) {
+            return $location.path('/');
+          }
+        }]
+      }
+    })
     .when('/logout', {
       resolve: {
         logout: ['$location', '$auth', function($location, $auth) {
@@ -191,6 +202,28 @@ app.controller("SessionListController", function($scope, $http) {
 });
 
 
+app.controller("SettingsController", function($scope, $http) {
+  $http.get('/api/user/me')
+    .success(function(data, status, headers, config) {
+      $scope.zulipEmail = data.zulipEmail;
+    });
+
+  $scope.updateSettings = function() {
+    var postData = {
+      zulipEmail: $scope.zulipEmail
+    };
+
+    $http.post('/api/user/me', postData)
+      .success(function(data, status, headers, config) {
+        $location.path('/dashboard');
+      })
+      .error(function(data, status, headers, config) {
+        throw 'Error' + status;
+      });
+  };
+});
+
+
 angular.module('ppRouletteApp')
   .directive('ampm', function() {
     return {
@@ -213,4 +246,3 @@ angular.module('ppRouletteApp')
       }
     };
   });
-
