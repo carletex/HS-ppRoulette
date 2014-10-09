@@ -168,6 +168,16 @@ module.exports.listSessions = function(req, res) {
     });
 };
 
+module.exports.statsSessions = function(req, res) {
+  Session.getStats(function(unpairedCount, pairedCount) {
+    res.json({
+      'unpairedCount': unpairedCount,
+      'pairedCount': pairedCount
+    });
+  });
+};
+
+
 function zulipNotifyPairs(sessionJSON, currentUser, cb) {
   var client = new zulip.Client({
     email: "pair-programming-roulette-bot@students.hackerschool.com",

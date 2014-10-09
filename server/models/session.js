@@ -75,4 +75,13 @@ sessionSchema.statics.getBookedSessions = function(hsId, cb) {
   }, cb);
 };
 
+sessionSchema.statics.getStats = function(cb) {
+  var self = this;
+  self.model('Session').count({}, function(err, unpairedCount) {
+    self.model('Session').count({guestId: {$ne: -1}}, function(err, pairedCount) {
+      cb(unpairedCount, pairedCount);
+    });
+  });
+};
+
 module.exports = mongoose.model('Session', sessionSchema);

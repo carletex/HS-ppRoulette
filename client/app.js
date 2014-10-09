@@ -62,6 +62,18 @@ app.config(['$routeProvider', function($routeProvider) {
         }]
       }
     })
+
+    .when('/session/stats', {
+      templateUrl: '/partials/session_stats.html',
+      controller: 'SessionStatsController',
+      resolve: {
+        authenticated: ['$location', '$auth', function($location, $auth) {
+          if (!$auth.isAuthenticated()) {
+            return $location.path('/');
+          }
+        }]
+      }
+    })
     .when('/settings', {
       templateUrl: '/partials/settings.html',
       controller: 'SettingsController',
@@ -196,6 +208,17 @@ app.controller("SessionListController", function($scope, $http) {
   $http.get('/api/session/list')
     .success(function(data, status, headers, config) {
       $scope.sessions = data;
+    }).error(function(data, status, headers, config) {
+      throw 'Error' + status;
+    });
+});
+
+
+app.controller("SessionStatsController", function($scope, $http) {
+  $http.get('/api/session/stats')
+    .success(function(data, status, headers, config) {
+      $scope.pairedCount = data.pairedCount;
+      $scope.unpairedCount = data.unpairedCount;
     }).error(function(data, status, headers, config) {
       throw 'Error' + status;
     });
