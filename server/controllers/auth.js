@@ -39,7 +39,8 @@ module.exports.postHandler = function(req, res) {
           displayName: profile.first_name,
           email: profile.email,
           zulipEmail: profile.email,
-          image: profile.has_photo ? profile.image : ''
+          image: profile.has_photo ? profile.image : '',
+          credits: 1
         });
 
         user.save(function(err) {
