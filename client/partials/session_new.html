@@ -7,7 +7,15 @@
     <form ng-submit="addSession()">
       <input type="text" id="description" ng-model="description" placeholder="Describe shortly what you will work on.">
       <p>
-        {{ day }}
+        <select id="day" ng-model="day" id="day" style="width: 120px;">
+          <option value="0">Sunday</option>
+          <option value="1">Monday</option>
+          <option value="2">Tuesday</option>
+          <option value="3">Wednesday</option>
+          <option value="4">Thursday</option>
+          <option value="5">Friday</option>
+          <option value="6">Saturday</option>
+        </select>
         <select id="hour" ng-model="hour" id="hour" style="width: 60px;">
           <option value="11">11</option>
           <option value="12">12</option>

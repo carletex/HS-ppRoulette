@@ -11,10 +11,13 @@ module.exports.addSession = function(req, res) {
   // create a new date according to user provided time
   var selectedTime = day.hours(req.body.hour).minutes(req.body.minute);
 
-  if (req.body.day === 'tomorrow')  {
-    selectedTime = selectedTime.add(1, 'day');
-  } else if (req.body.day === 'monday') {
-    selectedTime = selectedTime.day(8); // see momentjs doc
+  console.log(day.day(), req.body.day);
+  req.body.day = parseInt(req.body.day, 10);
+
+  if (req.body.day < day.day())  {
+    selectedTime = selectedTime.day(7 + req.body.day);
+  } else {
+    selectedTime = selectedTime.add(day.day()-req.body.day, 'days');
   }
 
   req.body.date = selectedTime.toISOString();

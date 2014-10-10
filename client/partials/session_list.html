@@ -4,10 +4,10 @@
       <li ng-if="!sessions.length">You have no session booked.</li>
       <li data-ng-repeat="session in sessions">
         <span ng-if="session.displayName">
-          {{ session.date | date:'MM/dd HH:mm'}} : You're pairing with <strong>{{ session.displayName }}</strong> (<strong>{{ session.description }}</strong>).
+          {{ session.date | date:'EEEE MM/dd HH:mm'}} : You're pairing with <strong>{{ session.displayName }}</strong> (<strong>{{ session.description }}</strong>).
         </span>
         <span ng-if="!session.displayName">
-          {{ session.date | date:'MM/dd HH:mm'}} : You're willing to pair on <strong>{{ session.description }}</strong>.
+          {{ session.date | date:'EEEE MM/dd HH:mm'}} : You're willing to pair on <strong>{{ session.description }}</strong>.
         </span>
       </li>
     </ul>

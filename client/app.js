@@ -147,7 +147,7 @@ app.controller("SessionController", function($scope, $http, $location) {
   $scope.day = 'today';
 
   if (now.getDay() === 5 || now.getDay() === 6 || now.getDay() === 0) {
-    $scope.day = 'monday';
+    $scope.day = 1;
     $scope.hour = 11;
   } else if (hour < 18) {
     for (var i = 0; i < hourOptions.length; i++) {
@@ -156,7 +156,8 @@ app.controller("SessionController", function($scope, $http, $location) {
       }
     }
   } else {
-    $scope.day = 'tomorrow';
+    //get tomorrow
+    $scope.day = (now.getDay()+1) % 7;
     $scope.hour = 11;
   }
 
