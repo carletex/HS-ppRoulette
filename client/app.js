@@ -144,12 +144,12 @@ app.controller("SessionController", function($scope, $http, $location) {
 
   $scope.hour = hour;
   $scope.minute = 0;
-  $scope.day = 'today';
 
   if (now.getDay() === 5 || now.getDay() === 6 || now.getDay() === 0) {
     $scope.day = 1;
     $scope.hour = 11;
   } else if (hour < 18) {
+    $scope.day = now.getDay();
     for (var i = 0; i < hourOptions.length; i++) {
       if(hourOptions.eq(i).val() < hour) {
         hourOptions.eq(i).attr('disabled', 'disabled');
@@ -184,9 +184,11 @@ app.controller("SessionController", function($scope, $http, $location) {
 });
 
 app.controller("MatchingController", function($scope, $http) {
-
+  $scope.postData = {
+    thursdaysOnly: false
+  };
   $scope.joinSession = function() {
-    $http.post('/api/session/random')
+    $http.post('/api/session/random', {thursdaysOnly: $scope.postData.thursdaysOnly} )
       .success(function(data, status, headers, config) {
         if(data.error === 'no credit') {
           $scope.paired = false;

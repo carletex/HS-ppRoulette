@@ -1,6 +1,7 @@
 <div class="row">
+  <form ng-submit="joinSession()">
   <div class="medium-4 columns roulette">
-    <button class="primary" type="submit" ng-click="joinSession()">Pair me!</button>
+    <button class="primary" type="submit">Pair me!</button>
   </div>
 
   <div class="medium-8 columns" ng-if="errorMessage">
@@ -8,7 +9,9 @@
   </div>
   <div class="medium-8 columns" ng-if="!errorMessage && !paired">
     <p>You will be paired with somebody. This will cost you one credit and cannot be undone.</p>
+    <p><label for="thursdaysOnly"><input type="checkbox" id="thursdaysOnly" ng-model="postData.thursdaysOnly"> I'm an alumn (therefore I'm only available for pairing on Thursdays).</label></p>
   </div>
+  </form>
 
   <div ng-if="paired">
     <div ng-show="data.hostName" class="medium-8 columns">

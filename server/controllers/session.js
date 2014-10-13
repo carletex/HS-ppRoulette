@@ -11,7 +11,6 @@ module.exports.addSession = function(req, res) {
   // create a new date according to user provided time
   var selectedTime = day.hours(req.body.hour).minutes(req.body.minute);
 
-  console.log(day.day(), req.body.day);
   req.body.day = parseInt(req.body.day, 10);
 
   if (req.body.day < day.day())  {
@@ -54,8 +53,7 @@ module.exports.assignRandomSession = function(req, res) {
   User.getUserById(req.hsId, function(err, user) {
     if (user.credits) {
       // get all open slots
-      Session.getOpenSessions(req.hsId, function(err, sessions) {
-        // filter out sessions with people I already got a session with
+      Session.getOpenSessions(req.hsId, req.body.thursdaysOnly, function(err, sessions) {
 
         if (sessions.length) {
           // pick one randomly

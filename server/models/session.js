@@ -11,7 +11,7 @@ var sessionSchema = new mongoose.Schema({
   minimize: false
 });
 
-sessionSchema.statics.getOpenSessions = function(hsId, cb) {
+sessionSchema.statics.getOpenSessions = function(hsId, thursdaysOnly, cb) {
   var now = moment();
   var self = this;
   // First, find my current session. Then, find the open session from people
@@ -33,11 +33,22 @@ sessionSchema.statics.getOpenSessions = function(hsId, cb) {
         }
       }
 
-      self.model('Session').find({
-        hostId : {$nin: alreadyBooked},
-        guestId: -1,
-        date: {$gte: now}
-      }, cb);
+      if (thursdaysOnly) {
+        self.model('Session').find({
+          hostId : {$nin: alreadyBooked},
+          guestId: -1,
+          date: {
+              $gt: moment().day(4).hour(10).minute(0).second(0),
+              $lt: moment().day(4).hour(18).minute(0).second(0)
+          }
+        }, cb);
+      } else {
+        self.model('Session').find({
+          hostId : {$nin: alreadyBooked},
+          guestId: -1,
+          date: {$gte: now}
+        }, cb)
+      }
 
     });
 };
