@@ -181,7 +181,7 @@ module.exports.statsSessions = function(req, res) {
 
 function zulipNotifyPairs(sessionJSON, currentUser, cb) {
   var client = new zulip.Client({
-    email: "pair-programming-roulette-bot@students.hackerschool.com",
+    email: config.ZULIP_EMAIL,
     api_key: config.ZULIP_SECRET,
     verbose: false
   });
@@ -203,7 +203,7 @@ function zulipNotifyPairs(sessionJSON, currentUser, cb) {
 
 function zulipNotifyStream(description) {
   var client = new zulip.Client({
-    email: "pair-programming-roulette-bot@students.hackerschool.com",
+    email: config.ZULIP_EMAIL,
     api_key: config.ZULIP_SECRET,
     verbose: false
   });
