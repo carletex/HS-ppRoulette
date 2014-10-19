@@ -18,7 +18,7 @@
         <li toggle-top-bar class="menu-icon"><a href="#">Menu</a></li>
       </ul>
       <section class="top-bar-section" id="navigation">
-        <ul class="right">
+        <ul class="right" ng-if="isAuthenticated()">
           <li>
             <a href="/#/session/list">My Pairing Sessions</a>
           </li>
@@ -44,7 +44,7 @@
         <div class="small-6 columns">
           <a href="https://github.com/carletex/HS-ppRoulette/issues">Please help us by reporting bugs and suggestions!</a>
         </div>
-        <div class="small-6 columns text-right">
+        <div class="small-6 columns text-right" ng-if="isAuthenticated()">
           <a href="/#/settings">Configure your Zulip notifications</a>
         </div>
       </div>
