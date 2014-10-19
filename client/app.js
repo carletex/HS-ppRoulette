@@ -100,7 +100,9 @@ app.config(['$routeProvider', function($routeProvider) {
 
 
 app.controller("AuthController", function($scope, $auth, $location) {
-  $scope.isAuthenticated = $auth.isAuthenticated();
+  $scope.isAuthenticated = function() {
+    return $auth.isAuthenticated();
+  }
 });
 
 app.controller("LoginController", function($scope, $auth, $location) {
